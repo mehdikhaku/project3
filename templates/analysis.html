@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Analysis of S&P 500 Companies</h1>
+<div>
+    <h2>Select a Company</h2>
+    <select id="company-dropdown">
+        {% for company in companies %}
+            <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
+        {% endfor %}
+    </select>
+    <div id="company-info"></div>
+</div>
+<div>
+    <h2>Market Cap Weight (%)</h2>
+    <canvas id="analysis-graph"></canvas>
+</div>
+<script src="/static/js/analysis.js"></script>
+<script src="/static/js/dropdown.js"></script>
+{% endblock %}
