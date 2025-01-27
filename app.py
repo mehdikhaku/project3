@@ -10,28 +10,23 @@ data = pd.read_csv('data/S&P 500 Stock List.csv')
 def home():
     return render_template('index.html')
 
-@app.route('/analysis')
-def analysis():
+@app.route('/component')
+def component():
     # Pass company data for dropdown
     companies = data[['Symbol', 'Company Name']].to_dict('records')
-    return render_template('analysis.html', companies=companies)
+    return render_template('component.html', companies=companies)
 
-@app.route('/heatmap')
-def heatmap():
-    return render_template('heatmap.html')
+@app.route('/sector')
+def sector():
+    return render_template('sector.html')
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/api/graph-data')
-def graph_data():
-    # Prepare graph data for analysis page
-    graph_data = {
-        "x": data['Company Name'].tolist(),
-        "y": data['Cap Percentage'].tolist()
-    }
-    return jsonify(graph_data)
+@app.route('/location')
+def location():
+    return render_template('location.html')
 
 @app.route('/api/dropdown/<symbol>')
 def dropdown_data(symbol):
@@ -47,3 +42,41 @@ def heatmap_data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/api/graph-data')
+def graph_data():
+    # Prepare graph data for analysis page
+    graph_data = {
+        "x": data['Company Name'].tolist(),
+        "y": data['Cap Percentage'].tolist()
+    }
+    return jsonify(graph_data)
+
+@app.route('/api/scatter-data')
+def get_scatter_data():
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT 
+                rev_growth, net_income, market_cap, sector, symbol 
+            FROM stock_list;
+        ''')
+        data = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        # Format data for JSON response
+        scatter_data = [
+            {
+                'rev_growth': row[0],
+                'net_income': row[1],
+                'market_cap': row[2],
+                'sector': row[3],
+                'symbol': row[4]
+            }
+            for row in data
+        ]
+        return jsonify(scatter_data)
+    else:
+        return "Error connecting to the database", 500
