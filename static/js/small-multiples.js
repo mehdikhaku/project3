@@ -1,61 +1,77 @@
-function createSmallMultiples(companies) {
-  const metrics = ['market_cap', 'revenues', 'net_income'];
-  const margin = {top: 20, right: 20, bottom: 30, left: 40};
-  const width = 200 - margin.left - margin.right;
-  const height = 150 - margin.top - margin.bottom;
+document.addEventListener('DOMContentLoaded', function () {
+    const compareButton = document.getElementById('compare-button');
+    const companySelect = document.getElementById('company-select');
 
-  const container = d3.select("#small-multiples-container");
-  container.selectAll("*").remove();
+    compareButton.addEventListener('click', function () {
+        const selectedCompanies = Array.from(companySelect.selectedOptions).map(option => option.value);
 
-  metrics.forEach(metric => {
-    const svg = container.append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+        if (selectedCompanies.length > 3) {
+            alert('Please select up to 3 companies');
+            return;
+        }
 
-    const x = d3.scaleBand()
-      .range([0, width])
-      .padding(0.1);
+        if (selectedCompanies.length === 0) {
+            alert('Please select at least one company');
+            return;
+        }
 
-    const y = d3.scaleLinear()
-      .range([height, 0]);
+        fetchCompanyData(selectedCompanies);
+    });
+});
 
-    x.domain(companies.map(d => d.symbol));
-    y.domain([0, d3.max(companies, d => d[metric])]);
-
-    svg.selectAll(".bar")
-      .data(companies)
-      .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", d => x(d.symbol))
-      .attr("width", x.bandwidth())
-      .attr("y", d => y(d[metric]))
-      .attr("height", d => height - y(d[metric]));
-
-    svg.append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x));
-
-    svg.append("g")
-      .call(d3.axisLeft(y));
-
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", 0)
-      .attr("text-anchor", "middle")
-      .text(metric);
-  });
+function fetchCompanyData(symbols) {
+    fetch(`/api/companies?symbols=${symbols.join(',')}`)
+        .then(response => response.json())
+        .then(data => createComparisonTable(data))
+        .catch(error => console.error('Error fetching company data:', error));
 }
 
-document.getElementById('company-select').addEventListener('change', function() {
-  const selectedCompanies = Array.from(this.selectedOptions).map(option => option.value);
-  if (selectedCompanies.length > 3) {
-    alert('Please select up to 3 companies');
-    return;
-  }
-  
-  fetch(`/api/companies?symbols=${selectedCompanies.join(',')}`)
-    .then(response => response.json())
-    .then(data => createSmallMultiples(data));
-});
+function createComparisonTable(companies) {
+    const container = document.getElementById('small-multiples-container');
+    container.innerHTML = ''; // Clear previous content
+
+    if (companies.length === 0) {
+        container.innerHTML = '<p>No data available for the selected companies.</p>';
+        return;
+    }
+
+    // Create table
+    const table = document.createElement('table');
+    table.className = 'comparison-table';
+
+    // Create header row with company names
+    const headerRow = table.insertRow();
+    headerRow.insertCell().textContent = 'Metric'; // First cell for metric names
+    companies.forEach(company => {
+        const cell = headerRow.insertCell();
+        cell.textContent = company.symbol; // Add company symbol as column header
+        cell.style.textAlign = 'center';
+    });
+
+    // Add rows for each metric
+    const metrics = ['market_cap', 'revenues', 'net_income'];
+    metrics.forEach(metric => {
+        const row = table.insertRow();
+        row.insertCell().textContent = metric.replace('_', ' ').toUpperCase(); // Metric name
+
+        companies.forEach(company => {
+            const cell = row.insertCell();
+            cell.textContent = formatValue(company[metric]); // Metric value for each company
+            cell.style.textAlign = 'center';
+        });
+    });
+
+    container.appendChild(table);
+}
+
+function formatValue(value) {
+    // Format large numbers for readability (e.g., 1500000000 -> $1.5B)
+    if (!value && value !== 0) return 'N/A'; // Handle missing or null values
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1,
+        notation: 'compact'
+    }).format(value);
+}

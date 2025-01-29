@@ -3,7 +3,8 @@
 {% block content %}
 <h1>Component Analysis of S&P 500 Companies</h1>
 <p>The index is market-capitalization-weighted, meaning companies with larger market values have greater influence on its performance. 
-    Market capitalization is calculated by multiplying a company's share price by its total outstanding shares. The S&P 500 covers about 80% of the total U.S. stock market value. </p>
+    Market capitalization is calculated by multiplying a company's share price by its total outstanding shares. The S&P 500 covers about 80% of the total U.S. stock market value.</p>
+
 <div>
     <h2>Percent of Total S&P Weight vs. Number of Companies</h2>
     <div id="weight-distribution-chart"></div>
@@ -28,6 +29,8 @@
         <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
       {% endfor %}
     </select>
+    <button id="compare-button">Compare Selected Companies</button>
+    <!-- Add this container -->
     <div id="small-multiples-container"></div>
 </div>
 
