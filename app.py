@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify
 import psycopg2
+from psycopg2 import sql
 
 app = Flask(__name__)
 
@@ -98,72 +99,129 @@ def dropdown_data(symbol):
     else:
         return "Error connecting to the database", 500
 
-@app.route('/api/heatmap-data')
-def heatmap_data():
-    """API route to retrieve sector heatmap data."""
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT sector, SUM(cap_percentage) FROM stock_list GROUP BY sector;')
-        sectors = cursor.fetchall()
-        cursor.close()
-        conn.close()
-
-        # Format data for JSON response
-        heatmap_data = {row[0]: row[1] for row in sectors}
-        return jsonify(heatmap_data)
-    else:
-        return "Error connecting to the database", 500
-
-@app.route('/api/graph-data')
-def graph_data():
-    """API route to retrieve graph data for analysis."""
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT company_name, cap_percentage FROM stock_list;')
-        data = cursor.fetchall()
-        cursor.close()
-        conn.close()
-
-        # Format data for JSON response
-        graph_data = {
-            "x": [row[0] for row in data],
-            "y": [row[1] for row in data]
-        }
-        return jsonify(graph_data)
-    else:
-        return "Error connecting to the database", 500
-
-@app.route('/api/scatter-data')
-def scatter_data():
-    """API route to retrieve scatter plot data."""
-    conn = get_db_connection()
-    if conn:
-        cursor = conn.cursor()
-        cursor.execute('''
+@app.route('/api/weight_distribution')
+def weight_distribution():
+    """API route to calculate and return cumulative weight distribution."""
+    try:
+        conn = get_db_connection()
+        if conn:
+            cursor = conn.cursor()
+            # Updated query to use cap_percentage instead of weight_in_index
+            query = """
             SELECT 
-                rev_growth, net_income, market_cap, sector, symbol 
+                ROW_NUMBER() OVER (ORDER BY cap_percentage DESC) AS company_count,
+                SUM(cap_percentage) OVER (ORDER BY cap_percentage DESC) AS cumulative_weight
             FROM stock_list;
-        ''')
-        data = cursor.fetchall()
+            """
+            cursor.execute(query)
+            results = cursor.fetchall()
+            cursor.close()
+            conn.close()
+
+            # Format data as JSON
+            data = [{"company_count": row[0], "cumulative_weight": row[1]} for row in results]
+            print(f"Data retrieved: {len(data)} rows")  # Debug print
+            return jsonify(data)
+        else:
+            print("Error: Failed to connect to the database")  # Debug print
+            return jsonify({"error": "Error connecting to the database"}), 500
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")  # Debug print
+        return jsonify({"error": str(e)}), 500
+
+from flask import request, jsonify
+from psycopg2 import sql
+
+@app.route('/api/sectors')
+def get_sectors():
+    try:
+        conn = get_db_connection()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT DISTINCT sector FROM stock_list ORDER BY sector")
+            sectors = [row[0] for row in cursor.fetchall()]
+            cursor.close()
+            conn.close()
+            print(f"Sectors found: {sectors}")  # Debug print
+            return jsonify(sectors)
+        else:
+            print("Database connection failed")
+            return jsonify({"error": "Database connection failed"}), 500
+    except Exception as e:
+        print(f"Error in get_sectors: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/top_companies')
+def top_companies():
+    try:
+        # Get query parameters with defaults
+        metric = request.args.get('metric', 'market_cap')
+        sector = request.args.get('sector', 'All')
+
+        # Validate allowed metrics
+        allowed_metrics = ['market_cap', 'revenues', 'revenue_growth', 'net_income']
+        if metric not in allowed_metrics:
+            return jsonify({"error": "Invalid metric"}), 400
+
+        # Establish database connection
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({"error": "Database connection failed"}), 500
+
+        cursor = conn.cursor()
+        
+        # Construct SQL query dynamically based on sector and metric
+        if sector == 'All':
+            query = sql.SQL("""
+            SELECT company_name, {}
+            FROM stock_list 
+            ORDER BY {} DESC 
+            LIMIT 5
+            """).format(sql.Identifier(metric), sql.Identifier(metric))
+            cursor.execute(query)
+        else:
+            query = sql.SQL("""
+            SELECT company_name, {}
+            FROM stock_list 
+            WHERE sector = %s
+            ORDER BY {} DESC 
+            LIMIT 5
+            """).format(sql.Identifier(metric), sql.Identifier(metric))
+            cursor.execute(query, (sector,))
+        
+        # Fetch results and close connection
+        results = cursor.fetchall()
         cursor.close()
         conn.close()
 
-        # Format data for JSON response
-        scatter_data = [
-            {
-                'rev_growth': row[0],
-                'net_income': row[1],
-                'market_cap': row[2],
-                'sector': row[3],
-                'symbol': row[4]
-            }
-            for row in data
-        ]
-        return jsonify(scatter_data)
-    else:
-        return "Error connecting to the database", 500
+        # Check if results are empty
+        if not results:
+            return jsonify([]), 200
 
+        # Format results as JSON array
+        data = [{"company": row[0], "value": row[1]} for row in results]
+        return jsonify(data)
+
+    except Exception as e:
+        print(f"Error in top_companies: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/companies')
+def get_companies():
+    symbols = request.args.get('symbols').split(',')
+    conn = get_db_connection()
+    if conn:
+        cursor = conn.cursor()
+        placeholders = ','.join(['%s'] * len(symbols))
+        query = f"SELECT symbol, market_cap, revenues, net_income FROM stock_list WHERE symbol IN ({placeholders})"
+        cursor.execute(query, symbols)
+        companies = [dict(zip(['symbol', 'market_cap', 'revenues', 'net_income'], row)) for row in cursor.fetchall()]
+        cursor.close()
+        conn.close()
+        return jsonify(companies)
+    else:
+        return jsonify({"error": "Database connection failed"}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)

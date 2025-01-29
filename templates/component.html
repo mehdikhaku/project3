@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Analysis of S&P 500 Companies</h1>
+<h1>Component Analysis of S&P 500 Companies</h1>
+<p>The index is market-capitalization-weighted, meaning companies with larger market values have greater influence on its performance. 
+    Market capitalization is calculated by multiplying a company's share price by its total outstanding shares. The S&P 500 covers about 80% of the total U.S. stock market value. </p>
 <div>
     <h2>Percent of Total S&P Weight vs. Number of Companies</h2>
-    <canvas id="number-of-companies-graph"></canvas>
+    <div id="weight-distribution-chart"></div>
 </div>
+
 <div>
     <h2>Select a Company</h2>
+    <p>The S&P 500 index brings together roughly 500 traded companies, spanning 11 sectors. 
+        Although named the S&P 500, the index currently includes 503 stocks because three companies have two classes of shares each.</p>
     <select id="company-dropdown">
         {% for company in companies %}
             <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
@@ -15,10 +20,34 @@
     </select>
     <div id="company-info"></div>
 </div>
+
 <div>
-    <h2>Market Cap Top 10</h2>
-    <canvas id="top-10-graph"></canvas>
+    <h2>Compare Companies (Select up to 3)</h2>
+    <select id="company-select" multiple>
+      {% for company in companies %}
+        <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
+      {% endfor %}
+    </select>
+    <div id="small-multiples-container"></div>
 </div>
-<script src="/static/js/analysis.js"></script>
+
+<div>
+    <h2>Top 5 Companies</h2>
+    <select id="metric-select">
+        <option value="market_cap">Market Cap</option>
+        <option value="revenues">Revenues</option>
+        <option value="revenue_growth">Revenue Growth</option>
+        <option value="net_income">Net Income</option>
+    </select>
+    <select id="sector-select">
+        <option value="All">All Sectors</option>
+        <!-- The sector options will be dynamically populated by JavaScript -->
+    </select>
+    <div id="top-companies-chart" style="width:100%; height:400px;"></div>
+</div>
+
+<script src="/static/js/weight_distribution.js"></script>
 <script src="/static/js/dropdown.js"></script>
+<script src="/static/js/top_companies.js"></script>
+<script src="/static/js/small-multiples.js"></script>
 {% endblock %}
