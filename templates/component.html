@@ -14,11 +14,15 @@
     <h2>Select a Company</h2>
     <p>The S&P 500 index brings together roughly 500 traded companies, spanning 11 sectors. 
         Although named the S&P 500, the index currently includes 503 stocks because three companies have two classes of shares each.</p>
-    <select id="company-dropdown">
-        {% for company in companies %}
-            <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
-        {% endfor %}
-    </select>
+    <div class="dropdown-container">
+        <input type="text" id="company-search" placeholder="Search for a company...">
+        <select id="company-dropdown">
+            <option value="">Select a company</option>
+            {% for company in companies %}
+                <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <div id="company-info"></div>
 </div>
 
@@ -30,7 +34,6 @@
       {% endfor %}
     </select>
     <button id="compare-button">Compare Selected Companies</button>
-    <!-- Add this container -->
     <div id="small-multiples-container"></div>
 </div>
 
