@@ -90,7 +90,7 @@ select {
 
 /* Button Styling */
 button {
-    background-color: #3498db;
+    background-color: #42db34;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -127,4 +127,52 @@ button:hover {
     -moz-appearance: none;
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><path d="M0 0h12L6 6z" fill="%23333"/></svg>') no-repeat right 10px center;
     background-size: 10px;
+}
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table th, .comparison-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.comparison-table .company-header {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.comparison-table .metric-label {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
+}
+
+.comparison-table .metric-value {
+    font-family: 'Courier New', monospace;
+}
+
+.comparison-table .even-row {
+    background-color: #f9f9f9;
+}
+
+.comparison-table .odd-row {
+    background-color: #ffffff;
+}
+
+.no-data {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#small-multiples-container {
+    overflow-x: auto;
 }

@@ -22,42 +22,59 @@ document.addEventListener('DOMContentLoaded', function () {
 function fetchCompanyData(symbols) {
     fetch(`/api/companies?symbols=${symbols.join(',')}`)
         .then(response => response.json())
-        .then(data => createComparisonTable(data))
+        .then(data => {
+            // Fetch stock prices for each company
+            const pricePromises = data.map(company => 
+                fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${company.symbol}&apikey=HMP0H0GAGO29XMBO`)
+                    .then(response => response.json())
+                    .then(priceData => {
+                        company.stockPrice = priceData['Global Quote']['05. price'];
+                        return company;
+                    })
+            );
+            return Promise.all(pricePromises);
+        })
+        .then(companiesWithPrices => createComparisonTable(companiesWithPrices))
         .catch(error => console.error('Error fetching company data:', error));
 }
 
 function createComparisonTable(companies) {
     const container = document.getElementById('small-multiples-container');
-    container.innerHTML = ''; // Clear previous content
+    container.innerHTML = '';
 
     if (companies.length === 0) {
-        container.innerHTML = '<p>No data available for the selected companies.</p>';
+        container.innerHTML = '<p class="no-data">No data available for the selected companies.</p>';
         return;
     }
 
-    // Create table
     const table = document.createElement('table');
     table.className = 'comparison-table';
 
-    // Create header row with company names
     const headerRow = table.insertRow();
-    headerRow.insertCell().textContent = 'Metric'; // First cell for metric names
+    headerRow.insertCell().textContent = 'Metric';
     companies.forEach(company => {
         const cell = headerRow.insertCell();
-        cell.textContent = company.symbol; // Add company symbol as column header
-        cell.style.textAlign = 'center';
+        cell.textContent = company.symbol;
+        cell.className = 'company-header';
     });
 
-    // Add rows for each metric
-    const metrics = ['market_cap', 'revenues', 'net_income'];
-    metrics.forEach(metric => {
+    const metrics = [
+        { name: 'market_cap', label: 'Market Cap' },
+        { name: 'revenues', label: 'Revenues' },
+        { name: 'net_income', label: 'Net Income' },
+        { name: 'stockPrice', label: 'Stock Price' }
+    ];
+
+    metrics.forEach((metric, index) => {
         const row = table.insertRow();
-        row.insertCell().textContent = metric.replace('_', ' ').toUpperCase(); // Metric name
+        const labelCell = row.insertCell();
+        labelCell.textContent = metric.label;
+        labelCell.className = 'metric-label';
 
         companies.forEach(company => {
             const cell = row.insertCell();
-            cell.textContent = formatValue(company[metric]); // Metric value for each company
-            cell.style.textAlign = 'center';
+            cell.textContent = formatValue(company[metric.name]);
+            cell.className = `metric-value ${index % 2 === 0 ? 'even-row' : 'odd-row'}`;
         });
     });
 
@@ -65,13 +82,13 @@ function createComparisonTable(companies) {
 }
 
 function formatValue(value) {
-    // Format large numbers for readability (e.g., 1500000000 -> $1.5B)
-    if (!value && value !== 0) return 'N/A'; // Handle missing or null values
+    if (!value && value !== 0) return 'N/A';
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 0,
-        maximumFractionDigits: 1,
+        maximumFractionDigits: 2,
         notation: 'compact'
     }).format(value);
 }
+
