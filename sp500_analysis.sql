@@ -5,7 +5,7 @@
 -- Dumped from database version 16.6
 -- Dumped by pg_dump version 16.6
 
--- Started on 2025-01-27 20:18:43
+-- Started on 2025-01-30 20:25:47
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,65 +18,28 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- TOC entry 4 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO pg_database_owner;
+
+--
+-- TOC entry 4848 (class 0 OID 0)
+-- Dependencies: 4
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
-
---
--- TOC entry 220 (class 1259 OID 32798)
--- Name: company_list; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.company_list (
-    number integer NOT NULL,
-    symbol character varying(10),
-    company_name character varying(255),
-    market_cap double precision,
-    cap_percentage double precision,
-    stock_price double precision,
-    percent_change double precision,
-    revenues double precision,
-    volume double precision,
-    industry character varying(255),
-    sector character varying(255),
-    revenue_growth double precision,
-    fcf double precision,
-    net_income double precision,
-    net_cash double precision,
-    city character varying(255),
-    state character varying(255),
-    country character varying(255),
-    fulltime_employees integer,
-    business_summary text
-);
-
-
-ALTER TABLE public.company_list OWNER TO postgres;
-
---
--- TOC entry 219 (class 1259 OID 32797)
--- Name: company_list_number_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.company_list_number_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.company_list_number_seq OWNER TO postgres;
-
---
--- TOC entry 4865 (class 0 OID 0)
--- Dependencies: 219
--- Name: company_list_number_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.company_list_number_seq OWNED BY public.company_list.number;
-
 
 --
 -- TOC entry 215 (class 1259 OID 32769)
@@ -146,7 +109,7 @@ CREATE SEQUENCE public.stock_list_number_seq
 ALTER SEQUENCE public.stock_list_number_seq OWNER TO postgres;
 
 --
--- TOC entry 4866 (class 0 OID 0)
+-- TOC entry 4849 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: stock_list_number_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -155,35 +118,7 @@ ALTER SEQUENCE public.stock_list_number_seq OWNED BY public.stock_list.number;
 
 
 --
--- TOC entry 218 (class 1259 OID 32792)
--- Name: yoy_returns; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.yoy_returns (
-    year integer NOT NULL,
-    avg_closing_price double precision,
-    open_price double precision,
-    high_price double precision,
-    low_price double precision,
-    close_price double precision,
-    annual_percent_change double precision,
-    dividend_return double precision,
-    total_return double precision
-);
-
-
-ALTER TABLE public.yoy_returns OWNER TO postgres;
-
---
--- TOC entry 4702 (class 2604 OID 32801)
--- Name: company_list number; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.company_list ALTER COLUMN number SET DEFAULT nextval('public.company_list_number_seq'::regclass);
-
-
---
--- TOC entry 4701 (class 2604 OID 32778)
+-- TOC entry 4692 (class 2604 OID 32778)
 -- Name: stock_list number; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -191,17 +126,7 @@ ALTER TABLE ONLY public.stock_list ALTER COLUMN number SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 4859 (class 0 OID 32798)
--- Dependencies: 220
--- Data for Name: company_list; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.company_list (number, symbol, company_name, market_cap, cap_percentage, stock_price, percent_change, revenues, volume, industry, sector, revenue_growth, fcf, net_income, net_cash, city, state, country, fulltime_employees, business_summary) FROM stdin;
-\.
-
-
---
--- TOC entry 4854 (class 0 OID 32769)
+-- TOC entry 4840 (class 0 OID 32769)
 -- Dependencies: 215
 -- Data for Name: historical_returns; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -309,7 +234,7 @@ COPY public.historical_returns (year, avg_closing_price, open_price, high_price,
 
 
 --
--- TOC entry 4856 (class 0 OID 32775)
+-- TOC entry 4842 (class 0 OID 32775)
 -- Dependencies: 217
 -- Data for Name: stock_list; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -822,44 +747,16 @@ COPY public.stock_list (number, symbol, company_name, market_cap, cap_percentage
 
 
 --
--- TOC entry 4857 (class 0 OID 32792)
--- Dependencies: 218
--- Data for Name: yoy_returns; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.yoy_returns (year, avg_closing_price, open_price, high_price, low_price, close_price, annual_percent_change, dividend_return, total_return) FROM stdin;
-\.
-
-
---
--- TOC entry 4867 (class 0 OID 0)
--- Dependencies: 219
--- Name: company_list_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.company_list_number_seq', 1, false);
-
-
---
--- TOC entry 4868 (class 0 OID 0)
+-- TOC entry 4850 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: stock_list_number_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.stock_list_number_seq', 703, true);
+SELECT pg_catalog.setval('public.stock_list_number_seq', 1, true);
 
 
 --
--- TOC entry 4710 (class 2606 OID 32805)
--- Name: company_list company_list_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.company_list
-    ADD CONSTRAINT company_list_pkey PRIMARY KEY (number);
-
-
---
--- TOC entry 4704 (class 2606 OID 32773)
+-- TOC entry 4694 (class 2606 OID 32773)
 -- Name: historical_returns historical_returns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -868,7 +765,7 @@ ALTER TABLE ONLY public.historical_returns
 
 
 --
--- TOC entry 4706 (class 2606 OID 32782)
+-- TOC entry 4696 (class 2606 OID 32782)
 -- Name: stock_list stock_list_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -876,16 +773,7 @@ ALTER TABLE ONLY public.stock_list
     ADD CONSTRAINT stock_list_pkey PRIMARY KEY (number);
 
 
---
--- TOC entry 4708 (class 2606 OID 32796)
--- Name: yoy_returns yoy_returns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.yoy_returns
-    ADD CONSTRAINT yoy_returns_pkey PRIMARY KEY (year);
-
-
--- Completed on 2025-01-27 20:18:43
+-- Completed on 2025-01-30 20:25:47
 
 --
 -- PostgreSQL database dump complete
