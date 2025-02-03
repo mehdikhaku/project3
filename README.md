@@ -44,8 +44,12 @@ S&P 500 Company List (Updated industry & financial details)
 The project utilizes the following open-source libraries:
 
 Flask - Backend API for data retrieval
+
 psycopg2 - PostgreSQL integration
+
 Leaflet.js - Interactive map rendering
+
 Leaflet.heat - Heatmap visualization
+
 D3.js - Data-driven visualizations (for future expansion)
 
