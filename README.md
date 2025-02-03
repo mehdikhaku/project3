@@ -8,11 +8,11 @@ The project aims to develop an Interactive Stock Market Visualization Tool to he
 ### How to Use the Project
 
 ### Location Component 
-# 1. Setup & Installation
+#### 1. Setup & Installation
 - Clone repository
 - Create a virtual environment
 - Install dependencies
-# 2. Run the Flask App 
+##### 2. Run the Flask App 
 - Start the server
 - Open the web app
 
