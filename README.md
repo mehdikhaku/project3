@@ -7,7 +7,6 @@ The project aims to develop an Interactive Stock Market Visualization Tool to he
 
 ### How to Use the Project
 
-### Location Component 
 #### 1. Setup & Installation
 - Clone repository
 - Create a virtual environment
@@ -17,7 +16,18 @@ The project aims to develop an Interactive Stock Market Visualization Tool to he
 - Open the web app
 
 ### Interact with the Dashboard
-Use the sector filter to view specific industries.
-Search for a specific company using the search bar.
-Explore interactive maps with heatmaps & markers.
-View statistical insights about company distribution.
+- Use the sector filter to view specific industries.
+- Search for a specific company using the search bar.
+- Explore interactive maps with heatmaps & markers.
+- View statistical insights about company distribution.
+
+### Ethical Considerations
+#### - Data Transparency:
+The tool sources publicly available stock data and ensures clear citation of all sources.
+#### - Privacy & Security: 
+No personal or sensitive user data is collected or stored.
+#### - Bias Awareness: 
+The tool represents financial trends without misleading visualizations, ensuring fairness and objectivity in stock data interpretation.
+#### - Open Source: 
+The project is fully open-source, allowing improvements and contributions from the developer community.
+
