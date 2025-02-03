@@ -31,3 +31,19 @@ The tool represents financial trends without misleading visualizations, ensuring
 #### - Open Source: 
 The project is fully open-source, allowing improvements and contributions from the developer community.
 
+### Data Sources
+The stock market and company data were sourced from:
+
+Yahoo Finance API (Stock Price Data)
+PostgreSQL Database (pgAdmin) (Company Locations & Metadata)
+S&P 500 Company List (Updated industry & financial details)
+
+### External Code References
+The project utilizes the following open-source libraries:
+
+Flask - Backend API for data retrieval
+psycopg2 - PostgreSQL integration
+Leaflet.js - Interactive map rendering
+Leaflet.heat - Heatmap visualization
+D3.js - Data-driven visualizations (for future expansion)
+
