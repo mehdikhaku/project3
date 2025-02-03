@@ -35,7 +35,9 @@ The project is fully open-source, allowing improvements and contributions from t
 The stock market and company data were sourced from:
 
 Yahoo Finance API (Stock Price Data)
+
 PostgreSQL Database (pgAdmin) (Company Locations & Metadata)
+
 S&P 500 Company List (Updated industry & financial details)
 
 ### External Code References
