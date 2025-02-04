@@ -1,5 +1,215 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&P 500 Companies - Interactive Map</title>
 
-{% block content %}
-<h1>Location Analysis</h1>
-{% endblock %}
+    <!-- Leaflet.js CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Leaflet Heatmap Plugin -->
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        #stats {
+            margin: 15px auto;
+            padding: 10px;
+            width: 80%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+            text-align: left;
+        }
+        .stat-item {
+            margin: 5px 0;
+        }
+        #map {
+            height: 75vh;
+            width: 95vw;
+            margin: 10px auto;
+            border: 2px solid #000;
+        }
+        #controls {
+            margin: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        select, input {
+            padding: 5px;
+            font-size: 14px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>S&P 500 Companies - Interactive Map</h2>
+
+    <!-- Statistics section (moved above the map) -->
+    <div id="stats">
+        <h3>Company Statistics</h3>
+        <p class="stat-item"><strong>Total Companies:</strong> <span id="totalCompanies">0</span></p>
+        <p class="stat-item"><strong>Top 5 Sectors:</strong> <span id="topSectors"></span></p>
+        <p class="stat-item"><strong>Top 5 States:</strong> <span id="topStates"></span></p>
+    </div>
+
+    <!-- Filter controls -->
+    <div id="controls">
+        <label for="sectorFilter">Filter by Sector:</label>
+        <select id="sectorFilter">
+            <option value="all">All Sectors</option>
+        </select>
+
+        <label for="companySearch">Search Company:</label>
+        <input type="text" id="companySearch" placeholder="Enter company name">
+        <button id="searchBtn">Search</button>
+    </div>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let map = L.map("map").setView([37.8, -96], 4);
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "© OpenStreetMap contributors"
+            }).addTo(map);
+
+            let markerIcon = L.icon({
+                iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+                shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41]
+            });
+
+            let markers = [];
+            let heatArray = [];
+            let sectorFilter = document.getElementById("sectorFilter");
+            let companySearch = document.getElementById("companySearch");
+            let searchBtn = document.getElementById("searchBtn");
+            let companyData = [];
+
+            function updateStatistics(data) {
+                document.getElementById("totalCompanies").textContent = data.length;
+
+                let sectorCounts = {};
+                let stateCounts = {};
+
+                data.forEach(company => {
+                    sectorCounts[company.sector] = (sectorCounts[company.sector] || 0) + 1;
+                    stateCounts[company.state] = (stateCounts[company.state] || 0) + 1;
+                });
+
+                function getTopItems(obj, num) {
+                    return Object.entries(obj)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, num)
+                        .map(entry => `${entry[0]} (${entry[1]})`)
+                        .join(", ");
+                }
+
+                document.getElementById("topSectors").textContent = getTopItems(sectorCounts, 5);
+                document.getElementById("topStates").textContent = getTopItems(stateCounts, 5);
+            }
+
+            fetch("/api/companies")
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || data.length === 0) {
+                        console.warn("No data received from API.");
+                        alert("No company data available!");
+                        return;
+                    }
+
+                    companyData = data;
+
+                    let sectors = new Set();
+                    data.forEach(company => {
+                        sectors.add(company.sector);
+                    });
+
+                    sectors.forEach(sector => {
+                        let option = document.createElement("option");
+                        option.value = sector;
+                        option.textContent = sector;
+                        sectorFilter.appendChild(option);
+                    });
+
+                    function updateMarkers(selectedSector, searchQuery = "") {
+                        markers.forEach(marker => map.removeLayer(marker));
+                        markers = [];
+                        heatArray = [];
+
+                        let filteredData = data.filter(company =>
+                            (selectedSector === "all" || company.sector === selectedSector) &&
+                            (searchQuery === "" || company.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                        );
+
+                        filteredData.forEach(company => {
+                            let popupContent = `<b>${company.name}</b><br>
+                                                Sector: ${company.sector}<br>
+                                                Symbol: ${company.symbol}<br>
+                                                Location: ${company.city}, ${company.state}`;
+
+                            let latitude = parseFloat(company.latitude);
+                            let longitude = parseFloat(company.longitude);
+
+                            if (!isNaN(latitude) && !isNaN(longitude)) {
+                                let marker = L.marker([latitude, longitude], { icon: markerIcon })
+                                    .bindPopup(popupContent)
+                                    .addTo(map);
+
+                                markers.push(marker);
+                                heatArray.push([latitude, longitude, 1]);
+                            }
+                        });
+
+                        updateStatistics(filteredData);
+                        
+                        // Add heatmap layer
+                        if (heatArray.length > 0) {
+                            let heat = L.heatLayer(heatArray, {
+                                radius: 25,
+                                blur: 15,
+                                maxZoom: 10
+                            }).addTo(map);
+                        }
+                    }
+
+                    updateMarkers("all");
+                    updateStatistics(data);
+
+                    sectorFilter.addEventListener("change", function () {
+                        updateMarkers(this.value);
+                    });
+
+                    searchBtn.addEventListener("click", function () {
+                        let searchQuery = companySearch.value.trim();
+                        updateMarkers(sectorFilter.value, searchQuery);
+                    });
+
+                })
+                .catch(error => {
+                    console.error("Error loading data:", error);
+                    alert(`Failed to load company data. Check the API. Error: ${error.message}`);
+                });
+        });
+    </script>
+
+</body>
+</html>
