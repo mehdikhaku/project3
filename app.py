@@ -235,8 +235,8 @@ def get_locations():
     if conn:
         cursor = conn.cursor()
         query = """
-        SELECT symbol, name, sector, city, state, latitude, longitude 
-        FROM latitude_longitude;
+        SELECT symbol, company_name, sector, city, state, latitude, longitude 
+        FROM location_stock;
         """
         cursor.execute(query)
         companies = cursor.fetchall()
@@ -246,7 +246,7 @@ def get_locations():
         companies_list = [
             {
                 "symbol": row[0],
-                "name": row[1],
+                "company_name": row[1],
                 "sector": row[2],
                 "city": row[3],
                 "state": row[4],
@@ -257,7 +257,8 @@ def get_locations():
         return jsonify(companies_list)
     else:
         return jsonify({"error": "Database connection failed"}), 500
-    
+
+  
 @app.route('/api/sector_analysis')
 def get_sector_analysis():
     try:
