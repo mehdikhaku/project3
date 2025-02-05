@@ -19,23 +19,61 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function fetchCompanyData(symbols) {
-    fetch(`/api/companies?symbols=${symbols.join(',')}`)
-        .then(response => response.json())
-        .then(data => {
-            // Fetch stock prices for each company
-            const pricePromises = data.map(company => 
-                fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${company.symbol}&apikey=HMP0H0GAGO29XMBO`)
-                    .then(response => response.json())
-                    .then(priceData => {
-                        company.stockPrice = priceData['Global Quote']['05. price'];
-                        return company;
-                    })
-            );
-            return Promise.all(pricePromises);
-        })
-        .then(companiesWithPrices => createComparisonTable(companiesWithPrices))
-        .catch(error => console.error('Error fetching company data:', error));
+async function fetchPrice(symbol) {
+    try {
+        const response = await fetch(`/api/alpha_vantage/${symbol}`); // Fetch from your Flask route
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`API Error for ${symbol}: ${response.status} - ${errorText}`);
+            return 'N/A'; // Or handle the error as you see fit
+        }
+        const data = await response.json();
+
+        if (data && data['Global Quote'] && data['Global Quote']['05. price']) {
+          const price = parseFloat(data['Global Quote']['05. price']);
+          if (isNaN(price)) {
+            console.error("Price is NaN:", data['Global Quote']['05. price']);
+            return 'N/A';
+          }
+          return price;
+        } else {
+          console.error("Unexpected or missing price data:", data);
+          return 'N/A';
+        }
+
+
+    } catch (error) {
+        console.error(`Fetch Error for ${symbol}:`, error);
+        return 'N/A';
+    }
+}
+
+
+async function fetchCompanyData(symbols) {
+    try {
+        const response = await fetch(`/api/companies?symbols=${symbols.join(',')}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server error: ${response.status} - ${errorText}`);
+        }
+        const data = await response.json();
+
+        const companiesWithPrices = await Promise.all(
+            data.map(async (company, index) => {
+                await new Promise(resolve => setTimeout(resolve, index * 1500)); // Rate limiting
+
+                const price = await fetchPrice(company.symbol);
+                company.stockPrice = price;
+                return company;
+            })
+        );
+
+        createComparisonTable(companiesWithPrices);
+    } catch (error) {
+        console.error('Error fetching company data:', error);
+        const container = document.getElementById('small-multiples-container');
+        container.innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+    }
 }
 
 function createComparisonTable(companies) {
@@ -91,4 +129,3 @@ function formatValue(value) {
         notation: 'compact'
     }).format(value);
 }
-

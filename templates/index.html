@@ -13,58 +13,67 @@
     <canvas id="barChart"></canvas>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="chart-container">
+    <h2>S&P 500 Candlestick Chart</h2>
+    <canvas id="candlestickChart"></canvas>
+</div>
+
+
+</script> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Annual return data (percentages) from your dataset
-    const annualReturnsData = {
-        labels: [
-            '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016',
-            '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008', '2007', '2006',
-            '2005', '2004', '2003', '2002', '2001', '2000', '1999', '1998', '1997', '1996',
-            '1995', '1994', '1993', '1992', '1991', '1990', '1989', '1988', '1987', '1986',
-            '1985', '1984', '1983', '1982', '1981', '1980', '1979', '1978', '1977', '1976'
-        ],
-        datasets: [{
-            label: 'Annual Return (%)',
-            data: [
-                3.8, 25.02, 26.29, -18.11, 28.71, 18.4, 31.49, -4.38, 21.83, 11.96,
-                1.38, 13.69, 32.39, 16, 2.11, 15.06, 26.46, -37, 5.49, 15.79,
-                4.91, 10.88, 28.68, -22.1, -11.89, -9.1, 21.04, 28.58, 33.36, 22.96,
-                37.58, 1.32, 10.08, 7.62, 30.47, -3.1, 31.69, 16.61, 5.25, 18.67,
-                31.73, 6.27, 22.56, 23.42, -1.15, 36.44, 19.75, 25.9, 20.34, 11.59
-            ],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-        }]
-    };
+    fetch('/api/annual_returns_data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                alert("An error occurred: " + data.error);
+            } else {
+                const labels = data.labels;
+                const returns = data.returns;
 
-    // Bar chart options
-    const barChartOptions = {
-        responsive: true,
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Year'
-                }
-            },
-            y: {
-                title: {
-                    display: true,
-                    text: 'Annual Return (%)'
-                },
-                beginAtZero: true
+                const annualReturnsData = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Annual Return (%)',
+                        data: returns,
+                        backgroundColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)'), // Red for negative, green for positive
+                        borderColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'), // Darker shades
+                        borderWidth: 1
+                    }]
+                };
+
+                const barChartOptions = {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Annual Return (%)'
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                };
+
+                const ctx = document.getElementById('barChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: annualReturnsData,
+                    options: barChartOptions
+                });
             }
-        },
-    };
-
-    // Create the bar chart
-    const ctx = document.getElementById('barChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: annualReturnsData,
-        options: barChartOptions
-    });
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            alert("A network error occurred.");
+        });
 </script>
+
+
 {% endblock %}

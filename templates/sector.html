@@ -1,225 +1,152 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heatmap Visualization</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <style>
-/* style to use on the page*/
-        
-/*for heatmap*/
-.heatmap {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-    gap: 20px;
-}
-/*for industry*/
-.industry {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
-    text-align: center;
-}
-/*for symbol*/
-.symbol-container {
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); 
-    gap: 10px;
-    margin-top: 10px;
-}
-.symbol {
-    text-align: center;
-    padding: 10px;
-    font-size: 0.9em;
-    font-weight: bold;
-    color: black !important;
-    border-radius: 5px;
-    transition: transform 0.2s ease; 
-}
-/*for sector*/
-.sector h2 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-/*for symbol*/
-.symbol {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    margin: 5px;
-    transition: transform 0.2s ease;
-    overflow: hidden;
-}
-.symbol:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-}
-.tooltip {
-    position: absolute;
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 5px;
-    z-index: 10;
-    pointer-events: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
-}
-    </style>
-</head>
-<body>
-    <h1>SP500 Heatmap</h1>
-    <label for="filter">Select View:</label>
-    <select id="filter">
-        <option value="all">All Industries</option>
-        <option value="top10">Top 10</option>
-        <option value="last10">Last 10</option>
-    </select>
-    <div id="heatmap" class="heatmap"></div>
+{% extends "base.html" %}
 
-    <script>
-        //Allow the use of await to pause execution until asynchronous operations are complete
-        async function fetchHeatmapData() {
-        //Send an HTTP GET request to the /heatmap-data endpoint to retrieve data
-            const response = await fetch('/heatmap-data');
-        //Convert the response from the server into a JavaScript object 
-            const data = await response.json();
-        //display the heatmap on the page
-            renderHeatmap(data, "all"); 
+{% block content %}
+<h1>Sector Analysis of S&P 500 Companies</h1>
+<p>Sector Analysis analyzes the performance of each sector.</p>
 
-            // Add event listener for dropdown
-            document.getElementById("filter").addEventListener("change", (event) => {
-            // Get the selected value from the dropdown
-                const filter = event.target.value;
-            //Re-render the heatmap with the selected filter
-                renderHeatmap(data, filter);
-            });
-        }
-        //process hierarchical data (sectors, industries, symbols) to create a heatmap
-        function renderHeatmap(data, filter) {
-            //Select the HTML element with the id="heatmap"
-            const container = d3.select("#heatmap");
-            //Clear any existing content inside the container
-            container.html(""); 
-            // Convert the hierarchical data into a flat structure.
-            const flattenedData = [];
-            //Loop through each sector (key) and its industries (value)
-            Object.entries(data).forEach(([sector, industries]) => {
-            // Loop through each industry (key) and its symbols (value)
-                Object.entries(industries).forEach(([industry, symbols]) => {
-            // Iterate over the array of symbols for each industry
-                    symbols.forEach((symbolData) => {
-            //Add each symbol's data along with its industry and sector to the flattenedData array
-                        flattenedData.push({ ...symbolData, industry, sector });
-                    });
-                });
-            });
+    <h2>Company Count by Sector</h2>
+    <div class="chart-container">
+        <canvas id="companyPieChart"></canvas>
+    </div>
 
-            // Apply filter
-            // Start with all data
-            let filteredData = flattenedData;
-            // condition for the 10 items with the highest percent_change.
-            if (filter === "top10") {
-                filteredData = flattenedData
-                // Sort percent change in descending
-                    .sort((a, b) => b.percent_change - a.percent_change) 
-                    //Extracts the first 10 items from the sorted array
-                    .slice(0, 10);
-            //condition for the 10 items with the lowest percent_change.
-            } else if (filter === "last10") {
-                filteredData = flattenedData
-                // Sort percent change in ascending
-                    .sort((a, b) => a.percent_change - b.percent_change) 
-                    //Extracts the first 10 items from the sorted array
-                    .slice(0, 10);
+    <h2>Market Capitalization by Sector</h2>
+    <div class="chart-container">
+        <canvas id="marketCapPieChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script>
+        async function fetchSectorData() {
+            try {
+                let response = await fetch('/api/sector_analysis');
+                if (!response.ok) {
+                    throw new Error("Error fetching sector data");
+                }
+                let data = await response.json();
+                createCharts(data);
+            } catch (error) {
+                console.error("Failed to load data:", error);
             }
+        }
 
-            // Group filtered data by sector and industry
-            const groupedData = {};
-            //Group the filteredData into a structure
-            filteredData.forEach(({ sector, industry, symbol, percent_change }) => {
-            // Initialize sector if not present
-                if (!groupedData[sector]) groupedData[sector] = {};
-              // Initialize industry if not present  
-                if (!groupedData[sector][industry]) groupedData[sector][industry] = [];
-                // // Add the symbol and percent_change to the corresponding industry
-                groupedData[sector][industry].push({ symbol, percent_change });
+        function createCharts(data) {
+            const ctx1 = document.getElementById('companyPieChart').getContext('2d');
+            const companyChart = new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: data.sectors,
+                    datasets: [{
+                        label: 'Company Count by Sector',
+                        data: data.company_counts,
+                        backgroundColor: generateColors(data.sectors.length),
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Company Count by Sector',
+                            font: { size: 18 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    let value = tooltipItem.raw;
+                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value} companies`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 14 },
+                                padding: 15
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true
+                    }
+                }
             });
 
-            // Render heatmap
-            Object.entries(groupedData).forEach(([sector, industries]) => {
-                //Append a div for each sector to the container with the class="sector"
-                const sectorDiv = container.append("div").attr("class", "sector");
-                //Append an h2 inside each sector div to display the sector name
-                sectorDiv.append("h2").text(sector);
-                //Iterate over the industries in the current sector
-                Object.entries(industries).forEach(([industry, symbols]) => {
-                //Append a div for each industry to the sectorDiv with the class="industry"
-                    const industryDiv = sectorDiv.append("div").attr("class", "industry");
-                //Append an h3 inside each industry div to display the industry name.
-                    industryDiv.append("h3").text(industry);
-                //Iterate over the array of symbols
-                    const symbolContainer = industryDiv.append("div").attr("class", "symbol-container");
-                    // Add tooltip container
-                const tooltip = d3.select("body")
-                  .append("div")
-                    .attr("class", "tooltip");
-                    //Loop 
-                    symbols.forEach(({ symbol, percent_change }) => {
-                        //Ensure the size is proportional to the change
-                        const size = Math.abs(percent_change) * 10;
-                        // Set font size dynamically 
-                        const fontSize = Math.max(size * 0.2, 12); 
-
-                        symbolContainer.append("div")
-                            .attr("class", "symbol")
-                            //Red for negative percent_change and Green for positive percent_change
-                            .style("background-color", percent_change < 0 ? "red" : "green")
-                            //width, height, and line-height are set dynamically based on the calculated size
-                            .style("color", "black") 
-                            .style("font-weight", "bold")
-                            .style("width", `${size}px`)
-                            .style("height", `${size}px`)
-                            .style("line-height", `${size}px`)
-                            // Dynamically set font size
-                            .style("font-size", `${fontSize}px`) 
-                            .style("display", "flex")
-                            .style("align-items", "center")
-                            .style("justify-content", "center")
-                            //Display the symbol and percent_change formatted to 2 decimal places
-                            .text(`${symbol}: ${percent_change.toFixed(2)}%`)
-                            //Show the tooltip and sets the content to the symbol and percent change
-                            .on("mouseover", function (event) {
-            tooltip.style("visibility", "visible")
-                .text(`Symbol: ${symbol}, Change: ${percent_change.toFixed(2)}%`);
-        })
-        // Dynamically positions the tooltip near the cursor
-        .on("mousemove", function (event) {
-            tooltip.style("top", `${event.pageY + 10}px`)
-                .style("left", `${event.pageX + 10}px`);
-        })
-        //Hide the tooltip when the mouse leaves the rectangle
-        .on("mouseout", function () {
-            tooltip.style("visibility", "hidden");
-        });
-                        
-              
-                });
-                
+            const ctx2 = document.getElementById('marketCapPieChart').getContext('2d');
+            const marketChart = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: data.sectors,
+                    datasets: [{
+                        label: 'Market Capitalization by Sector',
+                        data: data.market_caps,
+                        backgroundColor: generateColors(data.sectors.length),
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Market Capitalization by Sector',
+                            font: { size: 18 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    let value = tooltipItem.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value}`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 14 },
+                                padding: 15
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true
+                    }
+                }
             });
-         });
-    }
 
-        fetchHeatmapData();
+            document.getElementById('companyPieChart').onclick = function(evt) {
+                const points = companyChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                if (points.length) {
+                    let index = points[0].index;
+                    alert(`Sector: ${data.sectors[index]}\nCompanies: ${data.company_counts[index]}`);
+                }
+            };
+
+            document.getElementById('marketCapPieChart').onclick = function(evt) {
+                const points = marketChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+                if (points.length) {
+                    let index = points[0].index;
+                    alert(`Sector: ${data.sectors[index]}\nMarket Cap: ${data.market_caps[index].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`);
+                }
+            };
+        }
+
+        function generateColors(length) {
+            const colors = [
+                'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)',
+                'rgba(100, 181, 246, 0.7)', 'rgba(156, 204, 101, 0.7)', 'rgba(240, 98, 146, 0.7)',
+                'rgba(255, 167, 38, 0.7)', 'rgba(121, 85, 72, 0.7)', 'rgba(63, 81, 181, 0.7)'
+            ];
+            return colors.slice(0, length);
+        }
+
+        fetchSectorData();
     </script>
-</body>
-</html>
+
+{% endblock %}
