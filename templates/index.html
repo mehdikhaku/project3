@@ -15,12 +15,14 @@
 
 <div class="chart-container">
     <h2>S&P 500 Candlestick Chart</h2>
-    <canvas id="candlestickChart"></canvas>
+    <div id="chart" style="width: 100%; max-width: 800px; height: 600px;"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.25.2.min.js"></script>
 
-</script> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Bar Chart
     fetch('/api/annual_returns_data')
         .then(response => response.json())
         .then(data => {
@@ -36,8 +38,8 @@
                     datasets: [{
                         label: 'Annual Return (%)',
                         data: returns,
-                        backgroundColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)'), // Red for negative, green for positive
-                        borderColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'), // Darker shades
+                        backgroundColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)'),
+                        borderColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'),
                         borderWidth: 1
                     }]
                 };
@@ -73,7 +75,51 @@
             console.error("Error fetching data:", error);
             alert("A network error occurred.");
         });
-</script>
 
+    // Candlestick Chart (using your original sample data)
+    const data = [
+        { date: '2025-01-01', open: 5868.55, high: 6118.71, low: 5827.04, close: 6101.24 },
+        { date: '2024-01-01', open: 4742.83, high: 6090.27, low: 4688.68, close: 5881.63 },
+        { date: '2023-01-01', open: 3824.14, high: 4783.35, low: 3808.1, close: 4769.83 },
+        { date: '2022-01-01', open: 4796.56, high: 4796.56, low: 3577.03, close: 3839.5 },
+        { date: '2021-01-01', open: 3700.65, high: 4793.06, low: 3700.65, close: 4766.18 },
+        { date: '2020-01-01', open: 3257.85, high: 3756.07, low: 2237.4, close: 3756.07 },
+        { date: '2019-01-01', open: 2510.03, high: 3240.02, low: 2447.89, close: 3230.78 },
+        { date: '2018-01-01', open: 2695.81, high: 2930.75, low: 2351.1, close: 2506.85 },
+        { date: '2017-01-01', open: 2257.83, high: 2690.16, low: 2257.83, close: 2673.61 },
+        { date: '2016-01-01', open: 2012.66, high: 2271.72, low: 1829.08, close: 2238.83 },
+        { date: '2015-01-01', open: 2058.2, high: 2130.82, low: 1867.61, close: 2043.94 },
+        { date: '2014-01-01', open: 1831.98, high: 2090.57, low: 1741.89, close: 2058.9 },
+        { date: '2013-01-01', open: 1462.42, high: 1848.36, low: 1457.15, close: 1848.36 },
+        { date: '2012-01-01', open: 1277.06, high: 1465.77, low: 1277.06, close: 1426.19 },
+        { date: '2011-01-01', open: 1271.87, high: 1363.61, low: 1099.23, close: 1257.6 },
+        { date: '2010-01-01', open: 1132.99, high: 1259.78, low: 1022.58, close: 1257.64 }
+    ];
+
+    const dates = data.map(d => d.date);
+    const open = data.map(d => d.open);
+    const high = data.map(d => d.high);
+    const low = data.map(d => d.low);
+    const close = data.map(d => d.close);
+
+    const trace = {
+        x: dates,
+        close: close,
+        high: high,
+        low: low,
+        open: open,
+        type: 'candlestick',
+        xaxis: 'x',
+        yaxis: 'y'
+    };
+
+    const layout = {
+        title: 'Candlestick Chart (2010-2025)',
+        xaxis: { title: 'Year' },
+        yaxis: { title: 'Price' }
+    };
+
+    Plotly.newPlot('chart', [trace], layout);
+</script>
 
 {% endblock %}

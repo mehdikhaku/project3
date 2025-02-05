@@ -49,6 +49,11 @@ def sector():
     """Sector analysis route."""
     return render_template('sector.html')
 
+@app.route('/revenue')
+def revenue():
+    """Revenue analysis route."""
+    return render_template('revenue.html')
+
 @app.route('/location')
 def location():
     """Location page route."""
@@ -354,6 +359,23 @@ def get_heatmap_data():
 
     else:
         return jsonify({'error': "Database connection failed"}), 500  # Return error if connection fails
+
+@app.route('/api/groupby_sector')
+def get_sectors_groupby():
+    sectorConn = get_db_connection()
+    if sectorConn:
+        sectorCursor = sectorConn.cursor()
+        sectorCursor.execute('SELECT sector, market_cap,revenue_growth,net_income,cap_percentage,company_name FROM stock_list ;')
+        sectors = sectorCursor.fetchall()
+        sectorCursor.close()
+        sectorConn.close()
+
+        # Format data for sectors chart
+        sector_list = [{'sector': row[0], 'm_cap': row[1],'rg': row[2],'nincome': row[3], 'p_cap': row[4],'company':row[5]} for row in sectors]
+        return jsonify(sector_list)
+    else:
+        return "Error connecting to the database", 500
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
