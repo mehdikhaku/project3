@@ -365,7 +365,7 @@ def get_sectors_groupby():
     sectorConn = get_db_connection()
     if sectorConn:
         sectorCursor = sectorConn.cursor()
-        sectorCursor.execute('SELECT sector, market_cap,revenue_growth,net_income,cap_percentage,company_name FROM stock_list ;')
+        sectorCursor.execute('SELECT sector, market_cap,revenue_growth,net_income,cap_percentage,company_name FROM revenue;')
         sectors = sectorCursor.fetchall()
         sectorCursor.close()
         sectorConn.close()
