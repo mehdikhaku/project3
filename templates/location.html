@@ -59,7 +59,7 @@
 
     <h2>S&P 500 Companies - Interactive Map</h2>
 
-    <!-- Statistics section -->
+    <!-- Statistics section (moved above the map) -->
     <div id="stats">
         <h3>Company Statistics</h3>
         <p class="stat-item"><strong>Total Companies:</strong> <span id="totalCompanies">0</span></p>
@@ -157,20 +157,14 @@
 
                         let filteredData = data.filter(company =>
                             (selectedSector === "all" || company.sector === selectedSector) &&
-                            (searchQuery === "" || company.company_name.toLowerCase().includes(searchQuery.toLowerCase()))
+                            (searchQuery === "" || company.name.toLowerCase().includes(searchQuery.toLowerCase()))
                         );
 
                         filteredData.forEach(company => {
-                            let city = company.city || "";
-                            let state = company.state && company.state !== "NaN" ? company.state : "";
-                            let country = company.country && company.country !== "NaN" ? company.country : "";
-
-                            let locationString = `${city}${state ? ", " + state : ""}${country ? ", " + country : ""}`;
-
-                            let popupContent = `<b>${company.company_name}</b><br>
+                            let popupContent = `<b>${company.name}</b><br>
                                                 Sector: ${company.sector}<br>
                                                 Symbol: ${company.symbol}<br>
-                                                Location: ${locationString}`;
+                                                Location: ${company.city}, ${company.state}`;
 
                             let latitude = parseFloat(company.latitude);
                             let longitude = parseFloat(company.longitude);
@@ -187,6 +181,7 @@
 
                         updateStatistics(filteredData);
                         
+                        // Add heatmap layer
                         if (heatArray.length > 0) {
                             let heat = L.heatLayer(heatArray, {
                                 radius: 25,
