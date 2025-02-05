@@ -326,7 +326,7 @@ def get_heatmap_data():
             # Your SQL query
             query = """
             SELECT sector, industry, symbol, percent_change 
-            FROM stock_list
+            FROM heatmap
             """
             cursor.execute(query)
             rows = cursor.fetchall()

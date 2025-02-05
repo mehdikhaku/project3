@@ -1,0 +1,504 @@
+number,symbol,percent_change,industry,sector
+1,NVDA,0.1,Semiconductors,Technology
+2,AAPL,-0.08,Consumer Electronics,Technology
+3,MSFT,0.11,Software - Infrastructure,Technology
+4,AMZN,0.17,Internet Retail,Consumer Discretionary
+5,GOOG,-0.23,Internet Content & Information,Communication Services
+6,GOOGL,-0.2,Internet Content & Information,Communication Services
+7,META,2.08,Internet Content & Information,Communication Services
+8,TSLA,-0.66,Auto Manufacturers,Consumer Discretionary
+9,AVGO,-0.26,Semiconductors,Technology
+10,BRK.B,-0.15,Insurance - Diversified,Financials
+11,WMT,0.62,Discount Stores,Consumer Staples
+12,JPM,1.18,Banks - Diversified,Financial Services
+13,LLY,1.67,Drug Manufacturers - General,Healthcare
+14,V,1.44,Credit Services,Financial Services
+15,ORCL,1.22,Software - Infrastructure,Technology
+16,MA,1.34,Credit Services,Financial Services
+17,UNH,1.93,Healthcare Plans,Healthcare
+18,XOM,0.57,Oil & Gas Integrated,Energy
+19,NFLX,3.24,Entertainment,Communication Services
+20,COST,-0.27,Discount Stores,Consumer Staples
+21,HD,1.05,Home Improvement Retail,Consumer Discretionary
+22,PG,0.86,Household & Personal Products,Consumer Staples
+23,BAC,1.31,Banks - Diversified,Financial Services
+24,JNJ,0.94,Drug Manufacturers - General,Healthcare
+25,CRM,0.61,Software - Application,Technology
+26,ABBV,0.87,Drug Manufacturers - General,Healthcare
+27,CVX,-0.26,Oil & Gas Integrated,Energy
+28,KO,-0.4,Beverages - Non-Alcoholic,Consumer Staples
+29,WFC,-0.14,Banks - Diversified,Financial Services
+30,TMUS,-0.98,Telecom Services,Communication Services
+31,CSCO,0.97,Communication Equipment,Technology
+32,MRK,0.99,Drug Manufacturers - General,Healthcare
+33,NOW,0.8,Software - Application,Technology
+34,AXP,1.12,Credit Services,Financial Services
+35,ACN,1.16,Information Technology Services,Technology
+36,BX,1.5,Asset Management,Financial Services
+37,MS,1.32,Capital Markets,Financial Services
+38,TMO,0.05,Diagnostics & Research,Healthcare
+39,GE,6.6,Aerospace & Defense,Industrials
+40,ISRG,-0.29,Medical Instruments & Supplies,Healthcare
+166,TGT,1.09,Discount Stores,Consumer Staples
+41,GS,1.07,Capital Markets,Financial Services
+42,ABT,4.62,Medical Devices,Healthcare
+43,LIN,-0.4,Specialty Chemicals,Materials
+44,IBM,1.25,Information Technology Services,Technology
+45,PEP,0.36,Beverages - Non-Alcoholic,Consumer Staples
+46,MCD,1.09,Restaurants,Consumer Discretionary
+47,DIS,2.05,Entertainment,Communication Services
+48,AMD,-0.57,Semiconductors,Technology
+49,CAT,2.21,Farm & Heavy Construction Machinery,Industrials
+50,PM,2.07,Tobacco,Consumer Staples
+51,QCOM,2.42,Semiconductors,Technology
+52,ADBE,-0.01,Software - Infrastructure,Technology
+53,TXN,1.81,Semiconductors,Technology
+54,PLTR,2.74,Software - Infrastructure,Technology
+55,DHR,0.61,Diagnostics & Research,Healthcare
+167,CARR,-0.21,Building Products & Equipment,Industrials
+56,RTX,1.54,Aerospace & Defense,Industrials
+57,INTU,-2.19,Software - Application,Technology
+58,VZ,0.59,Telecom Services,Communication Services
+59,ANET,-0.54,Computer Hardware,Technology
+168,DLR,0.59,REIT - Specialty,Real Estate
+60,T,0.94,Telecom Services,Communication Services
+61,BKNG,4.31,Travel Services,Consumer Discretionary
+62,SPGI,0.5,Financial Data & Stock Exchanges,Financial Services
+63,BLK,1.13,Asset Management,Financial Services
+64,AMAT,-2.46,Semiconductor Equipment & Materials,Technology
+65,C,0.36,Banks - Diversified,Financial Services
+66,UNP,5.2,Railroads,Industrials
+67,SCHW,1.84,Capital Markets,Financial Services
+68,SYK,0.77,Medical Devices,Healthcare
+69,PFE,1.65,Drug Manufacturers - General,Healthcare
+70,BSX,1.33,Medical Devices,Healthcare
+71,AMGN,1.62,Drug Manufacturers - General,Healthcare
+72,LOW,1.29,Home Improvement Retail,Consumer Discretionary
+73,KKR,2.37,Asset Management,Financial Services
+74,HON,1.15,Conglomerates,Industrials
+75,ETN,-0.41,Specialty Industrial Machinery,Industrials
+76,UBER,0.71,Software - Application,Technology
+77,CMCSA,0.97,Telecom Services,Communication Services
+78,NEE,1.08,Utilities - Regulated Electric,Utilities
+79,PGR,0.14,Insurance - Property & Casualty,Financial Services
+80,TJX,0.02,Apparel Retail,Consumer Discretionary
+81,COP,0.9,Oil & Gas Exploration & Production,Energy
+82,BA,2.09,Aerospace & Defense,Industrials
+83,DE,3.26,Farm & Heavy Construction Machinery,Industrials
+84,PANW,-0.2,Software - Infrastructure,Technology
+85,GEV,2.48,Utilities - Renewable,Utilities
+86,ADP,-0.19,Software - Application,Technology
+87,BMY,3.59,Drug Manufacturers - General,Healthcare
+88,LMT,-0.41,Aerospace & Defense,Industrials
+89,FI,-1.41,Information Technology Services,Technology
+90,MU,-4.02,Semiconductors,Technology
+335,HUBB,-0.67,Electrical Equipment & Parts,Industrials
+91,GILD,-0.13,Drug Manufacturers - General,Healthcare
+92,MDT,1.61,Medical Devices,Healthcare
+93,UPS,0.8,Integrated Freight & Logistics,Industrials
+94,ADI,1.91,Semiconductors,Technology
+95,VRTX,2.74,Biotechnology,Healthcare
+96,PLD,2.96,REIT - Industrial,Real Estate
+97,SBUX,0.27,Restaurants,Consumer Discretionary
+98,NKE,0.34,Footwear & Accessories,Consumer Discretionary
+99,CEG,4.14,Utilities - Renewable,Utilities
+100,CB,-0.68,Insurance - Property & Casualty,Financial Services
+101,MMC,0.04,Insurance Brokers,Financial Services
+102,LRCX,-2.43,Semiconductor Equipment & Materials,Technology
+103,KLAC,-1.42,Semiconductor Equipment & Materials,Technology
+104,APO,0.5,Asset Management,Financials
+105,APH,0.91,Electronic Components,Technology
+106,ELV,2.72,Healthcare Plans,Healthcare
+107,CRWD,-0.07,Software - Infrastructure,Technology
+108,INTC,-1.33,Semiconductors,Technology
+109,EQIX,1.7,REIT - Specialty,Real Estate
+110,SHW,0.94,Specialty Chemicals,Materials
+111,ICE,2.28,Financial Data & Stock Exchanges,Financial Services
+112,SO,-0.32,Utilities - Regulated Electric,Utilities
+113,TT,0.18,Building Products & Equipment,Industrials
+114,PYPL,-0.13,Credit Services,Financial Services
+115,CDNS,0.94,Software - Application,Technology
+116,MCO,0.31,Financial Data & Stock Exchanges,Financial Services
+117,PH,0.83,Specialty Industrial Machinery,Industrials
+118,AMT,0.59,REIT - Specialty,Real Estate
+119,MO,0.79,Tobacco,Consumer Staples
+120,SNPS,1.26,Software - Infrastructure,Technology
+121,DUK,0.48,Utilities - Regulated Electric,Utilities
+122,WM,-0.63,Waste Management,Industrials
+123,CME,0.37,Financial Data & Stock Exchanges,Financial Services
+124,ABNB,0.56,Travel Services,Consumer Discretionary
+125,HCA,1.83,Medical Care Facilities,Healthcare
+126,WELL,0.83,REIT - Healthcare Facilities,Real Estate
+127,CI,2.06,Healthcare Plans,Healthcare
+128,MMM,0.34,Conglomerates,Industrials
+129,CTAS,-0.61,Specialty Business Services,Industrials
+130,DELL,-0.78,Computer Hardware,Technology
+131,MSI,0.88,Communication Equipment,Technology
+132,MAR,1.66,Lodging,Consumer Discretionary
+133,AON,-0.72,Insurance Brokers,Financial Services
+134,CMG,2.97,Restaurants,Consumer Discretionary
+135,PNC,0.69,Banks - Regional,Financial Services
+136,COF,1.54,Credit Services,Financial Services
+137,ITW,0.29,Specialty Industrial Machinery,Industrials
+138,MDLZ,1.15,Confectioners,Consumer Staples
+139,TDG,-0.3,Aerospace & Defense,Industrials
+140,MCK,2.19,Medical Distribution,Healthcare
+141,USB,-0.41,Banks - Regional,Financial Services
+142,ZTS,0.2,Drug Manufacturers - Specialty & Generic,Healthcare
+143,EOG,-0.03,Oil & Gas Exploration & Production,Energy
+144,REGN,2.15,Biotechnology,Healthcare
+145,EMR,0.95,Specialty Industrial Machinery,Industrials
+146,FTNT,-0.8,Software - Infrastructure,Technology
+147,GD,-0.1,Aerospace & Defense,Industrials
+148,ORLY,1.63,Specialty Retail,Consumer Discretionary
+149,NOC,-0.53,Aerospace & Defense,Industrials
+150,WMB,0.49,Oil & Gas Midstream,Energy
+151,APD,2.21,Specialty Chemicals,Materials
+152,AJG,-1.87,Insurance Brokers,Financial Services
+153,CL,0.41,Household & Personal Products,Consumer Staples
+154,BDX,1.07,Medical Instruments & Supplies,Healthcare
+155,ECL,0.53,Specialty Chemicals,Materials
+156,WDAY,0.72,Software - Application,Technology
+157,CVS,2.86,Healthcare Plans,Healthcare
+158,KMI,-0.97,Oil & Gas Midstream,Energy
+159,RSG,-0.1,Waste Management,Industrials
+160,SPG,1.13,REIT - Retail,Real Estate
+161,VST,2.69,Utilities - Independent Power Producers,Utilities
+162,FDX,-0.15,Integrated Freight & Logistics,Industrials
+163,CSX,1.29,Railroads,Industrials
+164,ADSK,-0.12,Software - Application,Technology
+165,RCL,0.84,Travel Services,Consumer Discretionary
+169,TFC,-0.53,Banks - Regional,Financial Services
+170,OKE,-1.33,Oil & Gas Midstream,Energy
+171,HLT,0.85,Lodging,Consumer Discretionary
+172,BK,0.47,Banks - Diversified,Financial Services
+173,MET,1.17,Insurance - Life,Financial Services
+174,GM,2.77,Auto Manufacturers,Consumer Discretionary
+175,SLB,0.96,Oil & Gas Equipment & Services,Energy
+176,AFL,0.16,Insurance - Life,Financial Services
+177,NSC,1.7,Railroads,Industrials
+178,PCAR,0.2,Farm & Heavy Construction Machinery,Industrials
+179,CHTR,2.03,Telecom Services,Communication Services
+180,ROP,-0.23,Software - Application,Technology
+181,AZO,1.43,Specialty Retail,Consumer Discretionary
+182,NXPI,1.75,Semiconductors,Technology
+183,CPRT,-0.09,Specialty Business Services,Industrials
+184,FCX,-1.51,Copper,Materials
+185,TRV,-2.11,Insurance - Property & Casualty,Financial Services
+186,AMP,0.33,Asset Management,Financial Services
+187,GWW,-0.14,Industrial Distribution,Industrials
+188,JCI,-0.09,Building Products & Equipment,Industrials
+189,SRE,0.01,Utilities - Diversified,Utilities
+190,PWR,-0.72,Engineering & Construction,Industrials
+191,PAYX,-0.02,Software - Application,Technology
+192,AEP,-0.02,Utilities - Regulated Electric,Utilities
+193,HWM,0.81,Aerospace & Defense,Industrials
+194,URI,0.77,Rental & Leasing Services,Industrials
+195,FANG,-0.54,Oil & Gas Exploration & Production,Energy
+196,PSA,0.29,REIT - Industrial,Real Estate
+197,PSX,3.43,Oil & Gas Refining & Marketing,Energy
+198,CMI,0.8,Specialty Industrial Machinery,Industrials
+199,DFS,1.75,Credit Services,Financial Services
+200,MPC,4.54,Oil & Gas Refining & Marketing,Energy
+201,ROST,-0.79,Apparel Retail,Consumer Discretionary
+202,ALL,-0.32,Insurance - Property & Casualty,Financial Services
+203,MSCI,0.48,Financial Data & Stock Exchanges,Financial Services
+204,COR,0.4,Medical Distribution,Healthcare
+205,O,0.33,REIT - Retail,Real Estate
+206,NEM,0.65,Gold,Materials
+207,OXY,0.28,Oil & Gas Exploration & Production,Energy
+208,LULU,1.31,Apparel Retail,Consumer Discretionary
+209,TEL,1.22,Electronic Components,Technology
+210,MNST,-2.24,Beverages - Non-Alcoholic,Consumer Staples
+211,AXON,0.95,Aerospace & Defense,Industrials
+212,NDAQ,0.25,Financial Data & Stock Exchanges,Financial Services
+213,AIG,-0.2,Insurance - Diversified,Financial Services
+214,GLW,-0.06,Electronic Components,Technology
+215,DHI,-1.15,Residential Construction,Consumer Discretionary
+216,TRGP,0.06,Oil & Gas Midstream,Energy
+217,BKR,-0.33,Oil & Gas Equipment & Services,Energy
+218,FICO,-1.37,Software - Application,Technology
+219,D,0.53,Utilities - Regulated Electric,Utilities
+220,VLO,4.17,Oil & Gas Refining & Marketing,Energy
+221,HES,-0.5,Oil & Gas Exploration & Production,Energy
+222,CTVA,2.69,Agricultural Inputs,Materials
+223,AME,0.92,Specialty Industrial Machinery,Industrials
+224,PEG,-0.05,Utilities - Regulated Electric,Utilities
+225,A,-0.1,Diagnostics & Research,Healthcare
+226,FAST,-0.19,Industrial Distribution,Industrials
+227,DAL,-0.49,Airlines,Industrials
+228,FIS,0.98,Information Technology Services,Technology
+229,CBRE,1.13,Real Estate Services,Real Estate
+230,KR,-0.32,Grocery Stores,Consumer Staples
+231,KMB,0.72,Household & Personal Products,Consumer Staples
+232,KDP,-1.41,Beverages - Non-Alcoholic,Consumer Staples
+233,LHX,-0.12,Aerospace & Defense,Industrials
+234,PRU,-0.39,Insurance - Life,Financial Services
+235,GRMN,-0.29,Scientific & Technical Instruments,Technology
+236,ODFL,1.46,Trucking,Industrials
+237,EW,-0.16,Medical Devices,Healthcare
+238,IT,-0.01,Information Technology Services,Technology
+239,F,1.3,Auto Manufacturers,Consumer Discretionary
+240,GEHC,0.95,Health Information Services,Healthcare
+241,KVUE,0,Household & Personal Products,Consumer Staples
+242,CTSH,0.8,Information Technology Services,Technology
+243,EXC,0.05,Utilities - Regulated Electric,Utilities
+244,VRSK,-0.49,Consulting Services,Industrials
+245,CCI,0.24,REIT - Specialty,Real Estate
+246,OTIS,0.85,Specialty Industrial Machinery,Industrials
+247,XEL,-1.37,Utilities - Regulated Electric,Utilities
+248,IR,-0.18,Specialty Industrial Machinery,Industrials
+249,IQV,0.28,Diagnostics & Research,Healthcare
+250,RMD,0.63,Medical Instruments & Supplies,Healthcare
+251,LEN,-1.19,Residential Construction,Consumer Discretionary
+252,VMC,0.16,Building Materials,Materials
+253,SYY,0.38,Food Distribution,Consumer Staples
+254,WAB,0.97,Railroads,Industrials
+255,PCG,-1.22,Utilities - Regulated Electric,Utilities
+256,YUM,0.63,Restaurants,Consumer Discretionary
+257,IDXX,0.41,Diagnostics & Research,Healthcare
+258,HUM,3.12,Healthcare Plans,Healthcare
+259,KHC,0,Packaged Foods,Consumer Staples
+260,RJF,0.62,Asset Management,Financial Services
+261,ETR,-0.84,Utilities - Regulated Electric,Utilities
+262,ACGL,-0.2,Insurance - Diversified,Financial Services
+263,DXCM,0.7,Medical Devices,Healthcare
+264,MPWR,1.36,Semiconductors,Technology
+265,UAL,-4.6,Airlines,Industrials
+266,MLM,-0.17,Building Materials,Materials
+267,CCL,1.43,Travel Services,Consumer Discretionary
+268,EFX,-1.1,Consulting Services,Industrials
+269,EXR,0.95,REIT - Industrial,Real Estate
+270,DECK,1.7,Footwear & Accessories,Consumer Discretionary
+271,GIS,0.4,Packaged Foods,Consumer Staples
+272,CNC,2.5,Healthcare Plans,Healthcare
+273,ROK,0.61,Specialty Industrial Machinery,Industrials
+274,DD,0.76,Specialty Chemicals,Materials
+275,IRM,1.21,REIT - Specialty,Real Estate
+276,MTB,0.71,Banks - Regional,Financial Services
+277,STZ,0.3,Beverages - Brewers,Consumer Staples
+278,TPL,-0.73,Oil & Gas Exploration & Production,Energy
+279,TTWO,-2.22,Electronic Gaming & Multimedia,Communication Services
+280,HIG,-0.6,Insurance - Property & Casualty,Financial Services
+281,WTW,-0.52,Insurance Brokers,Financial Services
+282,LYV,0.46,Entertainment,Communication Services
+283,HPE,-0.25,Communication Equipment,Technology
+284,MCHP,1.86,Semiconductors,Technology
+285,EQT,0.34,Oil & Gas Exploration & Production,Energy
+286,ANSS,1.05,Software - Application,Technology
+287,LVS,-1.25,Resorts & Casinos,Consumer Discretionary
+288,ED,-0.01,Utilities - Regulated Electric,Utilities
+289,HPQ,0.75,Computer Hardware,Technology
+290,CAH,0.43,Medical Distribution,Healthcare
+291,EA,-16.7,Electronic Gaming & Multimedia,Communication Services
+292,EBAY,1.36,Internet Retail,Consumer Discretionary
+293,VICI,-0.54,REIT - Diversified,Real Estate
+294,WEC,-0.28,Utilities - Regulated Electric,Utilities
+295,TSCO,-0.16,Specialty Retail,Consumer Discretionary
+296,CSGP,0.5,Real Estate Services,Real Estate
+297,AVB,-0.28,REIT - Residential,Real Estate
+298,HSY,-0.81,Confectioners,Consumer Staples
+299,BRO,0.04,Insurance Brokers,Financial Services
+300,KEYS,0.26,Scientific & Technical Instruments,Technology
+301,XYL,-0.05,Specialty Industrial Machinery,Industrials
+302,FITB,-0.18,Banks - Regional,Financial Services
+303,DOW,1.59,Chemicals,Materials
+304,GDDY,1.41,Software - Infrastructure,Technology
+305,EL,0.51,Household & Personal Products,Consumer Staples
+306,NUE,-0.02,Steel,Materials
+307,SW,-0.14,Packaging & Containers,Consumer Discretionary
+308,PPG,0.5,Specialty Chemicals,Materials
+309,K,0.16,Packaged Foods,Consumer Staples
+310,MTD,0.8,Diagnostics & Research,Healthcare
+311,STT,0.38,Asset Management,Financial Services
+312,FTV,0.05,Scientific & Technical Instruments,Technology
+313,BR,0.77,Information Technology Services,Technology
+314,GPN,-0.61,Specialty Business Services,Industrials
+315,SYF,-0.07,Credit Services,Financial Services
+316,DOV,0.17,Specialty Industrial Machinery,Industrials
+317,EQR,-0.28,REIT - Residential,Real Estate
+318,CDW,1.64,Information Technology Services,Technology
+319,CPAY,1.06,Software - Infrastructure,Technology
+320,CHD,-0.38,Household & Personal Products,Consumer Staples
+321,NTAP,0.2,Computer Hardware,Technology
+322,VLTO,0.55,Pollution & Treatment Controls,Industrials
+323,TYL,1.27,Software - Application,Technology
+324,NVR,-0.43,Residential Construction,Consumer Discretionary
+325,WBD,2.29,Entertainment,Communication Services
+326,TROW,-0.14,Asset Management,Financial Services
+327,VTR,1.85,REIT - Healthcare Facilities,Real Estate
+328,LYB,0.36,Specialty Chemicals,Materials
+334,WAT,1.09,Diagnostics & Research,Healthcare
+329,WST,-1.12,Medical Instruments & Supplies,Healthcare
+330,AEE,-0.04,Utilities - Regulated Electric,Utilities
+331,DTE,-0.6,Utilities - Regulated Electric,Utilities
+332,HAL,-1.79,Oil & Gas Equipment & Services,Energy
+333,HBAN,0.24,Banks - Regional,Financial Services
+336,ADM,0.28,Farm Products,Consumer Staples
+337,PPL,0.24,Utilities - Regulated Electric,Utilities
+338,TDY,0.67,Scientific & Technical Instruments,Technology
+339,ON,0.41,Semiconductors,Technology
+340,DVN,-0.03,Oil & Gas Exploration & Production,Energy
+341,PHM,-0.32,Residential Construction,Consumer Discretionary
+342,LII,0.55,Building Products & Equipment,Industrials
+343,WDC,0.07,Computer Hardware,Technology
+344,AWK,0.11,Utilities - Regulated Water,Utilities
+345,ROL,0.33,Personal Services,Consumer Discretionary
+346,STX,0.22,Computer Hardware,Technology
+347,PTC,0.61,Software - Application,Technology
+348,EXPE,1.87,Travel Services,Consumer Discretionary
+349,FE,-1.01,Utilities - Regulated Electric,Utilities
+350,NRG,0.17,Utilities - Independent Power Producers,Utilities
+351,FOXA,0.87,Entertainment,Communication Services
+352,EIX,-1.73,Utilities - Regulated Electric,Utilities
+353,IFF,1.13,Specialty Chemicals,Materials
+354,ZBH,1.18,Medical Devices,Healthcare
+355,RF,-0.25,Banks - Regional,Financial Services
+356,DRI,0.28,Restaurants,Consumer Discretionary
+357,WY,0.6,REIT - Specialty,Real Estate
+358,ZBRA,0.13,Communication Equipment,Technology
+359,NTRS,2,Asset Management,Financial Services
+360,WRB,-3.59,Insurance - Property & Casualty,Financial Services
+361,ATO,-1.5,Utilities - Regulated Gas,Utilities
+362,CTRA,0.17,Oil & Gas Exploration & Production,Energy
+363,TER,-2.2,Semiconductor Equipment & Materials,Technology
+364,STE,-0.63,Medical Devices,Healthcare
+365,FOX,0.55,Entertainment,Communication Services
+366,SBAC,0.15,REIT - Specialty,Real Estate
+367,PKG,-0.23,Packaging & Containers,Consumer Discretionary
+368,CINF,-1.41,Insurance - Property & Casualty,Financial Services
+369,CNP,0,Utilities - Regulated Electric,Utilities
+370,CBOE,1.96,Financial Data & Stock Exchanges,Financial Services
+371,BIIB,0.64,Drug Manufacturers - General,Healthcare
+372,CFG,0.66,Banks - Regional,Financial Services
+373,ES,0.79,Utilities - Regulated Electric,Utilities
+374,LH,0.77,Diagnostics & Research,Healthcare
+375,IP,0.7,Packaging & Containers,Consumer Discretionary
+376,MKC,2.08,Packaged Foods,Consumer Staples
+377,TSN,0.85,Farm Products,Consumer Staples
+378,CLX,1.32,Household & Personal Products,Consumer Staples
+379,LDOS,-7.57,Information Technology Services,Technology
+380,VRSN,-0.23,Software - Infrastructure,Technology
+381,ERIE,-0.02,Insurance Brokers,Financial Services
+382,CMS,-1.11,Utilities - Regulated Electric,Utilities
+383,SMCI,-1.33,Computer Hardware,Technology
+384,PODD,-0.61,Medical Devices,Healthcare
+385,ULTA,0.03,Specialty Retail,Consumer Discretionary
+386,BLDR,1.41,Building Products & Equipment,Industrials
+387,KEY,0.98,Banks - Regional,Financial Services
+388,LUV,0.22,Airlines,Industrials
+389,COO,0.53,Medical Instruments & Supplies,Healthcare
+390,TRMB,0.12,Scientific & Technical Instruments,Technology
+391,INVH,-0.72,REIT - Residential,Real Estate
+392,PFG,0.26,Asset Management,Financial Services
+393,JBL,1.34,Electronic Components,Technology
+394,FSLR,1.29,Solar,Technology
+395,STLD,-0.42,Steel,Materials
+396,ESS,-0.81,REIT - Residential,Real Estate
+397,SNA,-0.22,Tools & Accessories,Industrials
+398,BBY,2.04,Specialty Retail,Consumer Discretionary
+399,L,-0.65,Insurance - Property & Casualty,Financial Services
+400,FDS,-0.08,Financial Data & Stock Exchanges,Financial Services
+401,MAA,-0.16,REIT - Residential,Real Estate
+402,J,-0.04,Engineering & Construction,Industrials
+403,ARE,-0.18,REIT - Office,Real Estate
+404,NI,-0.48,Utilities - Regulated Gas,Utilities
+405,ALGN,1.18,Medical Instruments & Supplies,Healthcare
+406,MOH,1.22,Healthcare Plans,Healthcare
+407,PNR,-0.32,Specialty Industrial Machinery,Industrials
+408,MAS,1.08,Building Products & Equipment,Industrials
+409,JBHT,-2.64,Integrated Freight & Logistics,Industrials
+410,DGX,0.22,Diagnostics & Research,Healthcare
+411,HRL,1.68,Packaged Foods,Consumer Staples
+412,GEN,0.04,Software - Infrastructure,Technology
+413,OMC,0.02,Advertising Agencies,Communication Services
+414,TPR,0.38,Luxury Goods,Consumer Discretionary
+415,IEX,0.94,Specialty Industrial Machinery,Industrials
+416,CF,1.85,Agricultural Inputs,Materials
+417,BAX,1.95,Medical Instruments & Supplies,Healthcare
+418,NWS,0.67,Entertainment,Communication Services
+419,BALL,1.56,Packaging & Containers,Consumer Discretionary
+420,GPC,0.56,Auto Parts,Consumer Discretionary
+421,MRNA,10.1,Biotechnology,Healthcare
+422,EXPD,1.76,Integrated Freight & Logistics,Industrials
+423,FFIV,0.31,Software - Infrastructure,Technology
+424,HOLX,-0.69,Medical Instruments & Supplies,Healthcare
+425,RL,2.44,Apparel Manufacturing,Consumer Discretionary
+426,NWSA,0.18,Entertainment,Communication Services
+427,DG,0.86,Discount Stores,Consumer Staples
+428,BF.B,0.36,Beverages - Wineries & Distilleries,Consumer Staples
+429,EG,-0.13,Insurance - Reinsurance,Financial Services
+430,AVY,1.49,Packaging & Containers,Consumer Discretionary
+431,DPZ,1.28,Restaurants,Consumer Discretionary
+432,KIM,2.12,REIT - Retail,Real Estate
+433,DLTR,-1.15,Discount Stores,Consumer Staples
+434,LNT,-0.68,Utilities - Regulated Electric,Utilities
+435,UDR,-0.44,REIT - Residential,Real Estate
+436,APTV,1.9,Auto Parts,Consumer Discretionary
+437,RVTY,0.2,Diagnostics & Research,Healthcare
+438,SWKS,0.57,Semiconductors,Technology
+439,DOC,0.49,REIT - Healthcare Facilities,Real Estate
+440,TXT,-0.26,Aerospace & Defense,Industrials
+441,EVRG,0.3,Utilities - Regulated Electric,Utilities
+442,AKAM,0.82,Software - Infrastructure,Technology
+443,AMCR,0.51,Packaging & Containers,Consumer Discretionary
+444,INCY,0.17,Biotechnology,Healthcare
+445,DVA,0.86,Medical Care Facilities,Healthcare
+446,EPAM,4.2,Information Technology Services,Technology
+447,POOL,0.59,Industrial Distribution,Industrials
+448,SWK,2.54,Tools & Accessories,Industrials
+449,VTRS,0,Drug Manufacturers - Specialty & Generic,Healthcare
+450,REG,-0.08,REIT - Retail,Real Estate
+451,JNPR,0.46,Communication Equipment,Technology
+452,SOLV,-0.08,Health Information Services,Healthcare
+453,JKHY,0.33,Information Technology Services,Technology
+454,BXP,-1.2,REIT - Office,Real Estate
+455,CHRW,1.66,Integrated Freight & Logistics,Industrials
+456,KMX,4.75,Auto & Truck Dealerships,Consumer Discretionary
+457,NDSN,0.04,Specialty Industrial Machinery,Industrials
+458,UHS,1.53,Medical Care Facilities,Healthcare
+459,TECH,-2.29,Biotechnology,Healthcare
+460,HST,0.81,REIT - Hotel & Motel,Real Estate
+461,CAG,0.12,Packaged Foods,Consumer Staples
+462,CPT,-0.87,REIT - Residential,Real Estate
+463,NCLH,0.61,Travel Services,Consumer Discretionary
+464,ALLE,0.81,Security & Protection Services,Industrials
+465,CPB,0.76,Packaged Foods,Consumer Staples
+466,PAYC,-1.12,Software - Application,Technology
+467,TAP,-1.53,Beverages - Brewers,Consumer Staples
+468,DAY,0.14,Software - Application,Technology
+469,BG,0.98,Farm Products,Consumer Staples
+470,SJM,0.35,Packaged Foods,Consumer Staples
+471,EMN,1.03,Specialty Chemicals,Materials
+472,AIZ,0.09,Insurance - Property & Casualty,Financial Services
+473,ALB,-0.5,Specialty Chemicals,Materials
+474,IPG,0.21,Advertising Agencies,Communication Services
+475,BEN,0.6,Asset Management,Financial Services
+476,AOS,0.42,Specialty Industrial Machinery,Industrials
+477,WBA,1.03,Pharmaceutical Retailers,Healthcare
+478,LKQ,-0.97,Auto Parts,Consumer Discretionary
+479,GL,-1.79,Insurance - Life,Financial Services
+480,MGM,0.94,Resorts & Casinos,Consumer Discretionary
+481,PNW,-0.69,Utilities - Regulated Electric,Utilities
+482,HSIC,-0.04,Medical Distribution,Healthcare
+483,GNRC,-1.5,Specialty Industrial Machinery,Industrials
+484,WYNN,-0.09,Resorts & Casinos,Consumer Discretionary
+485,MOS,3.6,Agricultural Inputs,Materials
+486,FRT,0.59,REIT - Retail,Real Estate
+487,APA,0.64,Oil & Gas Exploration & Production,Energy
+488,ENPH,5.41,Solar,Technology
+489,LW,-0.59,Packaged Foods,Consumer Staples
+490,CRL,-0.81,Diagnostics & Research,Healthcare
+491,MKTX,-0.02,Capital Markets,Financial Services
+492,TFX,-0.01,Medical Instruments & Supplies,Healthcare
+493,MTCH,2.09,Internet Content & Information,Communication Services
+494,MHK,0.16,"Furnishings, Fixtures & Appliances",Consumer Discretionary
+495,AES,3.59,Utilities - Diversified,Utilities
+496,CE,0.92,Chemicals,Materials
+497,HAS,0.51,Leisure,Consumer Discretionary
+498,HII,-0.5,Aerospace & Defense,Industrials
+499,IVZ,0.92,Asset Management,Financial Services
+500,CZR,1.16,Resorts & Casinos,Consumer Discretionary
+501,PARA,3.43,Entertainment,Communication Services
+502,BWA,1.38,Auto Parts,Consumer Discretionary
+503,FMC,2.2,Agricultural Inputs,Materials
