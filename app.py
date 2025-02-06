@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import psycopg2
 from psycopg2 import sql
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__)
 
 # Database connection configuration
 db_config = {
