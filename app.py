@@ -228,7 +228,7 @@ def get_companies():
         return jsonify(companies)
     else:
         return jsonify({"error": "Database connection failed"}), 500
-
+    
 @app.route('/api/locations')
 def get_locations():
     conn = get_db_connection()
