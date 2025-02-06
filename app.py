@@ -1,17 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 import psycopg2
 from psycopg2 import sql
+from config import db_config
 
 app = Flask(__name__, template_folder='.')
-
-# Database connection configuration
-db_config = {
-    "dbname": "sp500_analysis",
-    "user": "postgres",  # Replace with your PostgreSQL username
-    "password": "postgres",  # Replace with your PostgreSQL password
-    "host": "localhost",
-    "port": "5432"
-}
 
 def get_db_connection():
     """Establishes a connection to the PostgreSQL database."""
