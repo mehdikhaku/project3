@@ -4,75 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Heatmap Visualization</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <style>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>  <style>
 /* style to use on the page*/
         
-/*for heatmap*/
+/*for heatmap container*/
 .heatmap {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-    gap: 20px;
+    display: grid; /* Use grid layout for the heatmap */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 20px; /* Gap between grid items */
 }
-/*for industry*/
+/*for each industry section*/
 .industry {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
-    text-align: center;
+    border: 1px solid #ccc; /* Border around each industry */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px; /* Padding inside the industry box */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Center text within industry */
 }
-/*for symbol*/
+/*for container of symbols*/
 .symbol-container {
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); 
-    gap: 10px;
-    margin-top: 10px;
+    display: grid; /* Use grid layout for symbols */
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive symbol columns */
+    gap: 10px; /* Gap between symbols */
+    margin-top: 10px; /* Margin at the top */
 }
+/*style for each symbol*/
 .symbol {
-    text-align: center;
-    padding: 10px;
-    font-size: 0.9em;
-    font-weight: bold;
-    color: black !important;
-    border-radius: 5px;
-    transition: transform 0.2s ease; 
+    text-align: center; /* Center text */
+    padding: 10px; /* Padding inside symbol box */
+    font-size: 0.9em; /* Slightly smaller font */
+    font-weight: bold; /* Bold font */
+    color: black !important; /* Force black color */
+    border-radius: 5px; /* Rounded corners */
+    transition: transform 0.2s ease; /* Smooth transform on hover */
 }
-/*for sector*/
+/*for each sector title*/
 .sector h2 {
-    text-align: center;
-    margin-bottom: 10px;
+    text-align: center; /* Center sector title */
+    margin-bottom: 10px; /* Margin at bottom */
 }
-/*for symbol*/
+/*style for each symbol*/
 .symbol {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    margin: 5px;
-    transition: transform 0.2s ease;
-    overflow: hidden;
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    text-align: center; /* Center text */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold text */
+    border-radius: 5px; /* Rounded corners */
+    margin: 5px; /* Margin around symbols */
+    transition: transform 0.2s ease; /* Smooth transform */
+    overflow: hidden; /* Hide overflowing text */
 }
 .symbol:hover {
-    transform: scale(1.1);
-    cursor: pointer;
+    transform: scale(1.1); /* Scale up on hover */
+    cursor: pointer; /* Change cursor on hover */
 }
+/*style for tooltip*/
 .tooltip {
-    position: absolute;
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 5px;
-    z-index: 10;
-    pointer-events: none;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    white-space: nowrap;
+    position: absolute; /* Absolute positioning */
+    visibility: hidden; /* Initially hidden */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    color: white; /* White text */
+    font-size: 14px; /* Font size */
+    padding: 8px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 10; /* Ensure it's on top */
+    pointer-events: none; /* Prevent interaction with tooltip */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); /* Shadow */
+    white-space: nowrap; /* Prevent text wrapping */
 }
     </style>
 </head>
@@ -149,9 +150,9 @@
             filteredData.forEach(({ sector, industry, symbol, percent_change }) => {
             // Initialize sector if not present
                 if (!groupedData[sector]) groupedData[sector] = {};
-              // Initialize industry if not present  
+            // Initialize industry if not present 
                 if (!groupedData[sector][industry]) groupedData[sector][industry] = [];
-                // // Add the symbol and percent_change to the corresponding industry
+            // // Add the symbol and percent_change to the corresponding industry
                 groupedData[sector][industry].push({ symbol, percent_change });
             });
 
@@ -170,8 +171,8 @@
                 //Iterate over the array of symbols
                     const symbolContainer = industryDiv.append("div").attr("class", "symbol-container");
                     // Add tooltip container
-                const tooltip = d3.select("body")
-                  .append("div")
+                    const tooltip = d3.select("body")
+                    .append("div")
                     .attr("class", "tooltip");
                     //Loop 
                     symbols.forEach(({ symbol, percent_change }) => {

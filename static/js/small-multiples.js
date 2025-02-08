@@ -21,30 +21,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchPrice(symbol) {
     try {
-        const response = await fetch(`/api/alpha_vantage/${symbol}`); // Fetch from your Flask route
+        const response = await fetch(`/api/alpha_vantage/${symbol}`);
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`API Error for ${symbol}: ${response.status} - ${errorText}`);
-            return 'N/A'; // Or handle the error as you see fit
+            return null; // Return null to explicitly indicate failure
         }
         const data = await response.json();
 
-        if (data && data['Global Quote'] && data['Global Quote']['05. price']) {
-          const price = parseFloat(data['Global Quote']['05. price']);
-          if (isNaN(price)) {
-            console.error("Price is NaN:", data['Global Quote']['05. price']);
-            return 'N/A';
+        // Check for the presence of the required data and that it's a valid number.
+        const priceString = data?.['Global Quote']?.['05. price']; // Use optional chaining
+        if (priceString) {
+          const price = parseFloat(priceString);
+          if (!isNaN(price)) {
+            return price;
+          } else {
+            console.error("Price is NaN:", priceString);
           }
-          return price;
-        } else {
-          console.error("Unexpected or missing price data:", data);
-          return 'N/A';
         }
 
+        console.error("Unexpected or missing price data:", data);
+        return null; // Return null if price data is missing or invalid
 
     } catch (error) {
         console.error(`Fetch Error for ${symbol}:`, error);
-        return 'N/A';
+        return null;  // Return null on fetch error
     }
 }
 
@@ -61,9 +62,8 @@ async function fetchCompanyData(symbols) {
         const companiesWithPrices = await Promise.all(
             data.map(async (company, index) => {
                 await new Promise(resolve => setTimeout(resolve, index * 1500)); // Rate limiting
-
                 const price = await fetchPrice(company.symbol);
-                company.stockPrice = price;
+                company.stockPrice = price; // Assign the price (which could be null)
                 return company;
             })
         );
@@ -75,6 +75,7 @@ async function fetchCompanyData(symbols) {
         container.innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
     }
 }
+
 
 function createComparisonTable(companies) {
     const container = document.getElementById('small-multiples-container');
@@ -111,7 +112,8 @@ function createComparisonTable(companies) {
 
         companies.forEach(company => {
             const cell = row.insertCell();
-            cell.textContent = formatValue(company[metric.name]);
+            const value = company[metric.name];
+            cell.textContent = formatValue(value);  // formatValue now handles null
             cell.className = `metric-value ${index % 2 === 0 ? 'even-row' : 'odd-row'}`;
         });
     });
@@ -120,7 +122,7 @@ function createComparisonTable(companies) {
 }
 
 function formatValue(value) {
-    if (!value && value !== 0) return 'N/A';
+  if (value === null || value === undefined) return 'N/A'; // Explicitly check for null and undefined
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',

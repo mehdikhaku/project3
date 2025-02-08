@@ -28,61 +28,61 @@
 
 {% block scripts %}
 <script>
-    // Bar Chart
+    // Bar Chart: Fetches annual return data from the /api/annual_returns_data endpoint and creates a bar chart using Chart.js
     fetch('/api/annual_returns_data')
-        .then(response => response.json())
+        .then(response => response.json()) // Parses the response as JSON
         .then(data => {
-            if (data.error) {
-                console.error(data.error);
-                alert("An error occurred: " + data.error);
-            } else {
-                const labels = data.labels;
-                const returns = data.returns;
+            if (data.error) { // Checks for errors in the fetched data
+                console.error(data.error); // Logs the error to the console
+                alert("An error occurred: " + data.error); // Displays an alert to the user
+            } else { // If no errors, proceeds to create the chart
+                const labels = data.labels; // Extracts the year labels from the data
+                const returns = data.returns; // Extracts the annual return values from the data
 
-                const annualReturnsData = {
-                    labels: labels,
+                const annualReturnsData = { // Defines the data for the bar chart
+                    labels: labels, // Sets the labels for the x-axis (years)
                     datasets: [{
-                        label: 'Annual Return (%)',
-                        data: returns,
-                        backgroundColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)'),
-                        borderColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'),
-                        borderWidth: 1
+                        label: 'Annual Return (%)', // Sets the label for the data series
+                        data: returns, // Sets the data values for the y-axis (annual returns)
+                        backgroundColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.5)'), // Sets the background color of the bars based on positive/negative returns
+                        borderColor: returns.map(value => value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(75, 192, 192, 1)'), // Sets the border color of the bars based on positive/negative returns
+                        borderWidth: 1 // Sets the width of the bar borders
                     }]
                 };
 
-                const barChartOptions = {
-                    responsive: true,
+                const barChartOptions = { // Defines the options for the bar chart
+                    responsive: true, // Makes the chart responsive to window size changes
                     scales: {
-                        x: {
+                        x: { // Configures the x-axis (years)
                             title: {
-                                display: true,
-                                text: 'Year'
+                                display: true, // Displays the x-axis title
+                                text: 'Year' // Sets the x-axis title text
                             }
                         },
-                        y: {
+                        y: { // Configures the y-axis (annual returns)
                             title: {
-                                display: true,
-                                text: 'Annual Return (%)'
+                                display: true, // Displays the y-axis title
+                                text: 'Annual Return (%)' // Sets the y-axis title text
                             },
-                            beginAtZero: true
+                            beginAtZero: true // Makes the y-axis start at 0
                         }
                     },
                 };
 
-                const ctx = document.getElementById('barChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: annualReturnsData,
-                    options: barChartOptions
+                const ctx = document.getElementById('barChart').getContext('2d'); // Gets the 2D rendering context of the canvas element
+                new Chart(ctx, { // Creates the bar chart using Chart.js
+                    type: 'bar', // Sets the chart type to bar
+                    data: annualReturnsData, // Sets the chart data
+                    options: barChartOptions // Sets the chart options
                 });
             }
         })
-        .catch(error => {
-            console.error("Error fetching data:", error);
-            alert("A network error occurred.");
+        .catch(error => { // Handles errors during the fetch request
+            console.error("Error fetching data:", error); // Logs the error to the console
+            alert("A network error occurred."); // Displays an alert to the user
         });
 
-    // Candlestick Chart (using your original sample data)
+    // Candlestick Chart: Creates a candlestick chart using Plotly.js with provided sample data.
     const data = [
         { date: '2025-01-01', open: 5868.55, high: 6118.71, low: 5827.04, close: 6101.24 },
         { date: '2024-01-01', open: 4742.83, high: 6090.27, low: 4688.68, close: 5881.63 },
@@ -184,30 +184,52 @@
         { date: '1928-01-01', open: 17.76, high: 24.35, low: 16.95, close: 24.35 }
     ];
 
-    const dates = data.map(d => d.date);
-    const open = data.map(d => d.open);
-    const high = data.map(d => d.high);
-    const low = data.map(d => d.low);
-    const close = data.map(d => d.close);
+    const dates = data.map(d => d.date); // Extracts the dates from the data
+    const open = data.map(d => d.open); // Extracts the open prices from the data
+    const high = data.map(d => d.high); // Extracts the high prices from the data
+    const low = data.map(d => d.low); // Extracts the low prices from the data
+    const close = data.map(d => d.close); // Extracts the close prices from the data
 
-    const trace = {
-        x: dates,
-        close: close,
-        high: high,
-        low: low,
-        open: open,
-        type: 'candlestick',
-        xaxis: 'x',
-        yaxis: 'y'
+    const trace = { // Defines the candlestick trace for Plotly
+        x: dates, // Sets the dates for the x-axis
+        close: close, // Sets the closing prices
+        high: high, // Sets the high prices
+        low: low, // Sets the low prices
+        open: open, // Sets the opening prices
+        type: 'candlestick', // Sets the trace type to candlestick
+        xaxis: 'x', // Sets the x-axis
+        yaxis: 'y' // Sets the y-axis
     };
 
-    const layout = {
-        title: 'Candlestick Chart (2010-2025)',
-        xaxis: { title: 'Year' },
-        yaxis: { title: 'Price' }
+    const layout = { // Defines the layout for the candlestick chart
+        title: 'Price by Year', // Sets the chart title
+        xaxis: { // Configures the x-axis (Year)
+            title: 'Year', // Sets the x-axis title
+            rangeslider: { // Adds a range slider for navigation (Optional)
+                visible: true // Makes the range slider visible
+            }
+        },
+        yaxis: { // Configures the y-axis (Price)
+            title: 'Price', // Sets the y-axis title
+            dtick: 500, // Sets the y-axis tick interval to 500
+        },
+        width: window.innerWidth * 0.70, // Sets the chart width to 70% of the window width
+        height: window.innerHeight * 0.90, // Sets the chart height to 90% of the window height
+        margin: { // Sets the margins around the chart
+            l: 50, // Left margin
+             r: 50, // Right margin
+            b: 100, // Bottom margin
+            t: 100,  // Top margin
+            pad: 4   // Padding
+        }
     };
 
-    Plotly.newPlot('chart', [trace], layout);
+    Plotly.newPlot('chart', [trace], layout); // Creates the candlestick chart using Plotly.js
+
+    // Optional: Resizes the chart when the window is resized
+    window.addEventListener('resize', function() {
+        Plotly.react('chart', [trace], layout); // Redraws the chart on resize
+    });
 </script>
 
 {% endblock %}

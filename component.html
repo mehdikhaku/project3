@@ -1,13 +1,13 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {# Inherits from the base.html template #}
 
-{% block content %}
+{% block content %} {# Defines the content block #}
 <h1>Component Analysis of S&P 500 Companies</h1>
 <p>The index is market-capitalization-weighted, meaning companies with larger market values have greater influence on its performance. 
     Market capitalization is calculated by multiplying a company's share price by its total outstanding shares. The S&P 500 covers about 80% of the total U.S. stock market value.</p>
 
 <div>
     <h2>Percent of Total S&P Weight vs. Number of Companies</h2>
-    <div id="weight-distribution-chart"></div>
+    <div id="weight-distribution-chart"></div> {# Container for the weight distribution chart #}
 </div>
 
 <div>
@@ -15,45 +15,44 @@
     <p>The S&P 500 index brings together roughly 500 traded companies, spanning 11 sectors. 
         Although named the S&P 500, the index currently includes 503 stocks because three companies have two classes of shares each.</p>
     <div class="dropdown-container">
-        <input type="text" id="company-search" placeholder="Search for a company...">
-        <select id="company-dropdown">
+        <input type="text" id="company-search" placeholder="Search for a company..."> {# Input for searching companies #}
+        <select id="company-dropdown"> {# Dropdown for selecting a company #}
             <option value="">Select a company</option>
-            {% for company in companies %}
-                <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
+            {% for company in companies %} {# Loops through the companies data passed from the backend #}
+                <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option> {# Populates the dropdown with company names and symbols #}
             {% endfor %}
         </select>
     </div>
-    <div id="company-info"></div>
+    <div id="company-info"></div> {# Container for displaying company information #}
 </div>
 
 <div>
     <h2>Compare Companies (Select up to 3)</h2>
-    <select id="company-select" multiple>
-      {% for company in companies %}
-        <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option>
-      {% endfor %}
+    <select id="company-select" multiple> {# Select for comparing companies, allows multiple selections #}
+        {% for company in companies %} {# Loops through the companies data #}
+            <option value="{{ company['Symbol'] }}">{{ company['Company Name'] }}</option> {# Populates the select with company names and symbols #}
+        {% endfor %}
     </select>
-    <button id="compare-button">Compare Selected Companies</button>
-    <div id="small-multiples-container"></div>
+    <button id="compare-button">Compare Selected Companies</button> {# Button to trigger comparison #}
+    <div id="small-multiples-container"></div> {# Container for displaying small multiples charts #}
 </div>
 
 <div>
     <h2>Top 5 Companies</h2>
-    <select id="metric-select">
+    <select id="metric-select"> {# Select for choosing the metric for ranking top companies #}
         <option value="market_cap">Market Cap</option>
         <option value="revenues">Revenues</option>
         <option value="revenue_growth">Revenue Growth</option>
         <option value="net_income">Net Income</option>
     </select>
-    <select id="sector-select">
+    <select id="sector-select"> {# Select for filtering top companies by sector #}
         <option value="All">All Sectors</option>
-        <!-- The sector options will be dynamically populated by JavaScript -->
-    </select>
-    <div id="top-companies-chart" style="width:100%; height:400px;"></div>
+        </select>
+    <div id="top-companies-chart" style="width:100%; height:400px;"></div> {# Container for the top companies chart #}
 </div>
 
-<script src="/static/js/weight_distribution.js"></script>
-<script src="/static/js/dropdown.js"></script>
-<script src="/static/js/top_companies.js"></script>
-<script src="/static/js/small-multiples.js"></script>
-{% endblock %}
+<script src="/static/js/weight_distribution.js"></script> {# Includes the JavaScript file for weight distribution chart #}
+<script src="/static/js/dropdown.js"></script> {# Includes the JavaScript file for company dropdown functionality #}
+<script src="/static/js/top_companies.js"></script> {# Includes the JavaScript file for top companies chart #}
+<script src="/static/js/small-multiples.js"></script> {# Includes the JavaScript file for small multiples charts #}
+{% endblock %} {# Ends the content block #}

@@ -1,44 +1,45 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {# Inherits from the base.html template #}
 
-{% block content %}
+{% block content %} {# Defines the content block #}
 <h1>Sector Analysis of S&P 500 Companies</h1>
 <p>Sector Analysis analyzes the performance of each sector.</p>
 
     <h2>Company Count by Sector</h2>
-    <div class="chart-container">
-        <canvas id="companyPieChart"></canvas>
+    <div class="chart-container"> {# Container for the company count pie chart #}
+        <canvas id="companyPieChart"></canvas> {# Canvas element for the company count pie chart #}
     </div>
 
     <h2>Market Capitalization by Sector</h2>
-    <div class="chart-container">
-        <canvas id="marketCapPieChart"></canvas>
+    <div class="chart-container"> {# Container for the market capitalization pie chart #}
+        <canvas id="marketCapPieChart"></canvas> {# Canvas element for the market capitalization pie chart #}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <script>
-        async function fetchSectorData() {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {# Includes Chart.js library for creating charts #}
+    <script>
+        async function fetchSectorData() { {# Async function to fetch sector data from the API #}
             try {
-                let response = await fetch('/api/sector_analysis');
-                if (!response.ok) {
-                    throw new Error("Error fetching sector data");
+                let response = await fetch('/api/sector_analysis'); {# Fetches data from the /api/sector_analysis endpoint #}
+                if (!response.ok) { {# Checks if the response is successful #}
+                    throw new Error("Error fetching sector data"); {# Throws an error if the response is not ok #}
                 }
-                let data = await response.json();
-                createCharts(data);
+                let data = await response.json(); {# Parses the response as JSON #}
+                createCharts(data); {# Calls the createCharts function to create the charts #}
             } catch (error) {
-                console.error("Failed to load data:", error);
+                console.error("Failed to load data:", error); {# Logs an error message if fetching data fails #}
             }
         }
 
-        function createCharts(data) {
-            const ctx1 = document.getElementById('companyPieChart').getContext('2d');
-            const companyChart = new Chart(ctx1, {
+        function createCharts(data) { {# Function to create the pie charts #}
+            const ctx1 = document.getElementById('companyPieChart').getContext('2d'); {# Gets the 2D rendering context for the company count chart #}
+            const companyChart = new Chart(ctx1, { {# Creates a new pie chart for company counts #}
                 type: 'pie',
                 data: {
-                    labels: data.sectors,
+                    labels: data.sectors, {# Sets the sector labels from the fetched data #}
                     datasets: [{
                         label: 'Company Count by Sector',
-                        data: data.company_counts,
-                        backgroundColor: generateColors(data.sectors.length),
-                        hoverOffset: 10
+                        data: data.company_counts, {# Sets the company count data from the fetched data #}
+                        backgroundColor: generateColors(data.sectors.length), {# Generates colors for the chart segments #}
+                        hoverOffset: 10 {# Sets the offset when hovering over a segment #}
                     }]
                 },
                 options: {
@@ -54,7 +55,7 @@
                             callbacks: {
                                 label: function(tooltipItem) {
                                     let value = tooltipItem.raw;
-                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value} companies`;
+                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value} companies`; {# Formats the tooltip label #}
                                 }
                             }
                         },
@@ -74,16 +75,16 @@
                 }
             });
 
-            const ctx2 = document.getElementById('marketCapPieChart').getContext('2d');
-            const marketChart = new Chart(ctx2, {
+            const ctx2 = document.getElementById('marketCapPieChart').getContext('2d'); {# Gets the 2D rendering context for the market cap chart #}
+            const marketChart = new Chart(ctx2, { {# Creates a new pie chart for market capitalization #}
                 type: 'pie',
                 data: {
-                    labels: data.sectors,
+                    labels: data.sectors, {# Sets the sector labels from the fetched data #}
                     datasets: [{
                         label: 'Market Capitalization by Sector',
-                        data: data.market_caps,
-                        backgroundColor: generateColors(data.sectors.length),
-                        hoverOffset: 10
+                        data: data.market_caps, {# Sets the market cap data from the fetched data #}
+                        backgroundColor: generateColors(data.sectors.length), {# Generates colors for the chart segments #}
+                        hoverOffset: 10 {# Sets the offset when hovering over a segment #}
                     }]
                 },
                 options: {
@@ -98,8 +99,8 @@
                         tooltip: {
                             callbacks: {
                                 label: function(tooltipItem) {
-                                    let value = tooltipItem.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value}`;
+                                    let value = tooltipItem.raw.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); {# Formats the market cap value as currency #}
+                                    return ` ${data.sectors[tooltipItem.dataIndex]}: ${value}`; {# Formats the tooltip label #}
                                 }
                             }
                         },
@@ -119,34 +120,34 @@
                 }
             });
 
-            document.getElementById('companyPieChart').onclick = function(evt) {
-                const points = companyChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            document.getElementById('companyPieChart').onclick = function(evt) { {# Adds a click event listener to the company count chart #}
+                const points = companyChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true); {# Gets the clicked segment #}
                 if (points.length) {
                     let index = points[0].index;
-                    alert(`Sector: ${data.sectors[index]}\nCompanies: ${data.company_counts[index]}`);
+                    alert(`Sector: ${data.sectors[index]}\nCompanies: ${data.company_counts[index]}`); {# Displays an alert with sector and company count information #}
                 }
             };
 
-            document.getElementById('marketCapPieChart').onclick = function(evt) {
-                const points = marketChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            document.getElementById('marketCapPieChart').onclick = function(evt) { {# Adds a click event listener to the market cap chart #}
+                const points = marketChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true); {# Gets the clicked segment #}
                 if (points.length) {
                     let index = points[0].index;
-                    alert(`Sector: ${data.sectors[index]}\nMarket Cap: ${data.market_caps[index].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`);
+                    alert(`Sector: ${data.sectors[index]}\nMarket Cap: ${data.market_caps[index].toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`); {# Displays an alert with sector and market cap information #}
                 }
             };
         }
 
-        function generateColors(length) {
+        function generateColors(length) { {# Function to generate an array of colors #}
             const colors = [
                 'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)',
                 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)',
                 'rgba(100, 181, 246, 0.7)', 'rgba(156, 204, 101, 0.7)', 'rgba(240, 98, 146, 0.7)',
                 'rgba(255, 167, 38, 0.7)', 'rgba(121, 85, 72, 0.7)', 'rgba(63, 81, 181, 0.7)'
             ];
-            return colors.slice(0, length);
+            return colors.slice(0, length); {# Returns the appropriate number of colors #}
         }
 
-        fetchSectorData();
+        fetchSectorData(); {# Calls the fetchSectorData function to initiate data fetching and chart creation #}
     </script>
 
-{% endblock %}
+{% endblock %} {# Ends the content block #}

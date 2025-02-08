@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S&P 500 Companies - Interactive Map</title>
 
-    <!-- Leaflet.js CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <!-- Leaflet Heatmap Plugin -->
     <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
 
     <style>
@@ -18,7 +16,7 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4; /* Light gray background */
         }
         #stats {
             margin: 15px auto;
@@ -26,23 +24,23 @@
             width: 80%;
             background: white;
             border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
-            text-align: left;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.2); /* Subtle shadow */
+            text-align: left; /* Align text to the left within the stats box */
         }
         .stat-item {
-            margin: 5px 0;
+            margin: 5px 0; /* Space between statistic items */
         }
         #map {
-            height: 75vh;
-            width: 95vw;
+            height: 75vh; /* 75% of viewport height */
+            width: 95vw; /* 95% of viewport width */
             margin: 10px auto;
-            border: 2px solid #000;
+            border: 2px solid #000; /* Black border around the map */
         }
         #controls {
             margin: 15px;
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            justify-content: center; /* Center the controls horizontally */
+            gap: 15px; /* Space between controls */
         }
         select, input {
             padding: 5px;
@@ -51,7 +49,7 @@
         button {
             padding: 5px 10px;
             font-size: 14px;
-            cursor: pointer;
+            cursor: pointer; /* Change cursor to pointer on hover */
         }
     </style>
 </head>
@@ -59,7 +57,6 @@
 
     <h2>S&P 500 Companies - Interactive Map</h2>
 
-    <!-- Statistics section -->
     <div id="stats">
         <h3>Company Statistics</h3>
         <p class="stat-item"><strong>Total Companies:</strong> <span id="totalCompanies">0</span></p>
@@ -67,7 +64,6 @@
         <p class="stat-item"><strong>Top 5 States:</strong> <span id="topStates"></span></p>
     </div>
 
-    <!-- Filter controls -->
     <div id="controls">
         <label for="sectorFilter">Filter by Sector:</label>
         <select id="sectorFilter">
@@ -79,15 +75,17 @@
         <button id="searchBtn">Search</button>
     </div>
 
-    <!-- Map container -->
     <div id="map"></div>
 
     <script>
+        // Wait for the DOM to fully load before executing the script
         document.addEventListener("DOMContentLoaded", function () {
-            let map = L.map("map").setView([37.8, -96], 4);
+            // Initialize the map and set its center and zoom level
+            let map = L.map("map").setView([37.8, -96], 4); // Center on the US, zoom level 4
 
+            // Add a tile layer to the map (using OpenStreetMap tiles)
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "© OpenStreetMap contributors"
+                attribution: "© OpenStreetMap contributors" // Required attribution for OpenStreetMap
             }).addTo(map);
 
             let markerIcon = L.icon({

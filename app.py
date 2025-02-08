@@ -2,6 +2,9 @@ from flask import Flask, render_template, jsonify, request
 import psycopg2
 from psycopg2 import sql
 from config import db_config
+import os
+import requests
+from dotenv import load_dotenv
 
 app = Flask(__name__, template_folder='.')
 
@@ -18,6 +21,31 @@ def get_db_connection():
 def home():
     """Home route."""
     return render_template('index.html')
+
+# Load environment variables from .env (for local development)
+load_dotenv()
+
+# Get API key from environment variables
+ALPHA_VANTAGE_API_KEY = os.getenv("ALPHA_VANTAGE_API_KEY")
+
+# If you want to hardcode the key JUST for local testing (NOT RECOMMENDED for production):
+# ALPHA_VANTAGE_API_KEY = "YOUR_ACTUAL_API_KEY"  # Replace with your key - ONLY FOR LOCAL TESTING
+
+if not ALPHA_VANTAGE_API_KEY:
+    raise ValueError("ALPHA_VANTAGE_API_KEY environment variable not set.")
+
+
+@app.route('/api/alpha_vantage/<symbol>')
+def get_stock_price(symbol):
+    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={ALPHA_VANTAGE_API_KEY}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Check for bad status codes (4xx or 5xx)
+        data = response.json()
+        return jsonify(data)
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data from Alpha Vantage: {e}")
+        return jsonify({"error": "Error fetching data"}), 500  # Return error response
 
 @app.route('/component')
 def component():

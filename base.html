@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}S&P 500 Dashboard{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    {% block extra_head %}{% endblock %}
+    <title>{% block title %}S&P 500 Dashboard{% endblock %}</title> {# Title of the page, uses a block for customization #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> {# Links to the stylesheet #}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> {# Includes Plotly.js for charting #}
+    {% block extra_head %}{% endblock %} {# Block for adding extra head elements, like additional scripts or styles #}
 </head>
 <body>
-    <nav>
+    <nav> {# Navigation bar #}
         <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('component') }}">Component Analysis</a></li>
-            <li><a href="{{ url_for('sector') }}">Sector Analysis</a></li>
-            <li><a href="{{ url_for('industry') }}">Industry Analysis</a></li>
-            <li><a href="{{ url_for('revenue') }}">Revenue Analysis</a></li>
-            <li><a href="{{ url_for('location') }}">Location Analysis</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('home') }}">Home</a></li> {# Link to the home page #}
+            <li><a href="{{ url_for('component') }}">Component Analysis</a></li> {# Link to component analysis page #}
+            <li><a href="{{ url_for('sector') }}">Sector Analysis</a></li> {# Link to sector analysis page #}
+            <li><a href="{{ url_for('industry') }}">Industry Analysis</a></li> {# Link to industry analysis page #}
+            <li><a href="{{ url_for('revenue') }}">Revenue Analysis</a></li> {# Link to revenue analysis page #}
+            <li><a href="{{ url_for('location') }}">Location Analysis</a></li> {# Link to location analysis page #}
+            <li><a href="{{ url_for('about') }}">About Us</a></li> {# Link to the about us page #}
         </ul>
     </nav>
-    <div class="content">
-        {% block content %}{% endblock %}
+    <div class="content"> {# Main content area #}
+        {% block content %}{% endblock %} {# Block for the main content of the page, to be overridden by child templates #}
     </div>
-    {% block scripts %}{% endblock %}
+    {% block scripts %}{% endblock %} {# Block for adding scripts at the end of the body #}
 </body>
 </html>
