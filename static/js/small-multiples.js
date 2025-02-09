@@ -21,16 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchPrice(symbol) {
     try {
-        const response = await fetch(`/api/alpha_vantage/${symbol}`);
+        const response = await fetch(`/api/alpha_vantage/${symbol}`); // Call your Flask route
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`API Error for ${symbol}: ${response.status} - ${errorText}`);
-            return null; // Return null to explicitly indicate failure
+            return null;
         }
         const data = await response.json();
 
-        // Check for the presence of the required data and that it's a valid number.
-        const priceString = data?.['Global Quote']?.['05. price']; // Use optional chaining
+        const priceString = data?.['Global Quote']?.['05. price'];
         if (priceString) {
           const price = parseFloat(priceString);
           if (!isNaN(price)) {
@@ -41,11 +40,11 @@ async function fetchPrice(symbol) {
         }
 
         console.error("Unexpected or missing price data:", data);
-        return null; // Return null if price data is missing or invalid
+        return null;
 
     } catch (error) {
         console.error(`Fetch Error for ${symbol}:`, error);
-        return null;  // Return null on fetch error
+        return null;
     }
 }
 

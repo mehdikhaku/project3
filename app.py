@@ -336,6 +336,42 @@ def annual_returns_data():
     else:
         return jsonify({'error': "Database connection failed"}), 500  # Return JSON error
 
+@app.route('/api/candlestick_data')
+def get_candlestick_data():
+    """Fetch historical candlestick data from the PostgreSQL database."""
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({"error": "Database connection failed"}), 500
+
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT year, open_price, high_price, low_price, close_price 
+                FROM historical_returns 
+                ORDER BY year ASC
+            """)  # Fetches historical data in chronological order
+            
+            data = cur.fetchall()
+            candlestick_data = [
+                {
+                    "date": row[0],  # Using "date" key to match JS structure, but it's actually "year"
+                    "open": row[1], 
+                    "high": row[2], 
+                    "low": row[3], 
+                    "close": row[4]
+                }
+                for row in data
+            ]
+        
+        return jsonify(candlestick_data)
+    except Exception as e:
+        print("Error fetching candlestick data:", e)
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+
+
+
 @app.route('/heatmap-data', methods=['GET'])
 def get_heatmap_data():
     conn = get_db_connection()  # Using the same get_db_connection pattern
